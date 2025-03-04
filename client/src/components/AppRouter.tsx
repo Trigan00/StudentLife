@@ -14,12 +14,27 @@ import SignIn from '@/pages/auth/SignIn';
 import SignUp from '@/pages/auth/SignUp';
 import { routes } from '@/utils/routesConsts';
 import AuthLayout from '@/pages/auth/layout';
+import { Box, Typography } from '@mui/material';
+import { SITE_NAME } from '@/utils/GeneralConsts';
 
 const AppRouter = () => {
   const { auth, isLoading } = useAuth();
 
   if (isLoading) {
-    return <h1>Loading ...</h1>;
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <Typography color='primary' variant='h3'>
+          {SITE_NAME}
+        </Typography>
+      </Box>
+    );
   }
 
   return (

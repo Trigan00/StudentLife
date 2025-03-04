@@ -1,4 +1,4 @@
-export const SITE_NAME = 'Student Life';
+export const SITE_NAME = 'StudentLife';
 
 export enum COLORS {
   primary = '#6E97FF',
