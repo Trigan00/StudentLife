@@ -8,3 +8,11 @@ export enum COLORS {
   border = '#E7E7E7',
   transparent = '#FFFFFFEC',
 }
+
+export enum DIMENSIONS {
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl',
+}

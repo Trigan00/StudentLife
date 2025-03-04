@@ -9,6 +9,7 @@ import { FC } from 'react';
 import { Box, Button, Link, Stack, TextField, Typography } from '@mui/material';
 import { routes } from '@/utils/routesConsts';
 import { SITE_NAME } from '@/utils/GeneralConsts';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Auth: FC<{ isLoginForm: boolean }> = ({ isLoginForm }) => {
   const queryClient = useQueryClient();
@@ -52,12 +53,14 @@ const Auth: FC<{ isLoginForm: boolean }> = ({ isLoginForm }) => {
           <Link
             variant='subtitle2'
             underline='hover'
-            onClick={() =>
-              navigate(
-                isLoginForm ? routes.REGISTRATION_ROUTE : routes.LOGIN_ROUTE,
-              )
-            }
+            // onClick={() =>
+            //   navigate(
+            //     isLoginForm ? routes.REGISTRATION_ROUTE : routes.LOGIN_ROUTE,
+            //   )
+            // }
             sx={{ ml: 0.5, cursor: 'pointer' }}
+            component={RouterLink}
+            to={isLoginForm ? routes.REGISTRATION_ROUTE : routes.LOGIN_ROUTE}
           >
             {isLoginForm ? 'Зарегистроваться' : ' Тогда войдите'}
           </Link>
