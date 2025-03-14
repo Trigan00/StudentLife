@@ -6,8 +6,6 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { UsersModule } from './users/users.module';
 import { User } from './users/users.model';
 import { AuthModule } from './auth/auth.module';
-import { PasswordsModule } from './passwords/passwords.module';
-import { Password } from './passwords/passwords.model';
 import { MailModule } from './mail/mail.module';
 import { TokenModule } from './token/token.module';
 import { Token } from './token/token.model';

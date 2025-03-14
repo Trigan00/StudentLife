@@ -14,7 +14,6 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { MailService } from 'src/mail/mail.service';
 import { TokenService } from 'src/token/token.service';
-import encryption from 'src/helpers/encryption';
 
 @Injectable()
 export class AuthService {
