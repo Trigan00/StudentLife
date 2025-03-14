@@ -1,7 +1,7 @@
 import Auth from './Auth';
 
-const SignIn = () => {
+const SignInPage = () => {
   return <Auth isLoginForm={true} />;
 };
 
-export default SignIn;
+export default SignInPage;

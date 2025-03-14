@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 
-const TodoItemPage = () => {
+const TaskPage = () => {
   const { id } = useParams<{ id: string }>();
 
   return (
@@ -11,4 +11,4 @@ const TodoItemPage = () => {
   );
 };
 
-export default TodoItemPage;
+export default TaskPage;
