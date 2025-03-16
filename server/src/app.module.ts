@@ -11,6 +11,8 @@ import { TokenModule } from './token/token.module';
 import { Token } from './token/token.model';
 import { join } from 'path';
 import { APP_GUARD } from '@nestjs/core';
+import { ClassesModule } from './classes/classes.module';
+import { Class } from './classes/classes.model';
 
 @Module({
   imports: [
@@ -29,7 +31,7 @@ import { APP_GUARD } from '@nestjs/core';
       define: {
         timestamps: false,
       },
-      models: [User, Token],
+      models: [User, Token, Class],
     }),
     // ServeStaticModule.forRoot({
     //   rootPath: join(__dirname, '..', '..', 'client', 'build'),
@@ -45,6 +47,7 @@ import { APP_GUARD } from '@nestjs/core';
     // PasswordsModule,
     // MailModule,
     TokenModule,
+    ClassesModule,
   ],
   controllers: [],
   // providers: [

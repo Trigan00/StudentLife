@@ -6,14 +6,16 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
+import { Class } from 'src/classes/classes.model';
 // import { Password } from 'src/passwords/passwords.model';
 import { Token } from 'src/token/token.model';
 
 interface UserCreationAttrs {
   email: string;
   password: string;
+  username: string;
   activationLink: string;
-  secret2fa: string;
+  // secret2fa: string;
 }
 
 @Table({ tableName: 'users' })
@@ -49,4 +51,7 @@ export class User extends Model<User, UserCreationAttrs> {
 
   @HasOne(() => Token)
   token: Token;
+
+  @HasMany(() => Class)
+  classes: Class[];
 }
