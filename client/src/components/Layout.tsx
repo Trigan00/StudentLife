@@ -34,6 +34,8 @@ const Layout = () => {
             mt: `${headerHeight}px`,
             height: `calc(100vh - ${headerHeight}px)`,
             overflowX: 'hidden',
+            boxSizing: 'border-box',
+            p: 2,
           }}
         >
           <Outlet />
