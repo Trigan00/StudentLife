@@ -32,7 +32,7 @@ const Auth: FC<{ isLoginForm: boolean }> = ({ isLoginForm }) => {
         queryClient.invalidateQueries({
           queryKey: ['token'],
         });
-      // isLoginForm && navigate(routes.HOME_ROUTE);
+      isLoginForm && navigate(routes.HOME_ROUTE);
     },
     onError: (error: any) => toast.error(errorCatch(error)),
   });

@@ -18,6 +18,7 @@ import TasksPage from '@/pages/TasksPage';
 import ClassesPage from '@/pages/ClassesPage';
 import ExamsPage from '@/pages/ExamsPage';
 import TaskPage from '@/pages/TaskPage';
+import NotFoundPage from '@/pages/NotFoundPage';
 
 const AppRouter = () => {
   const { auth, isLoading } = useAuth();
@@ -49,11 +50,7 @@ const AppRouter = () => {
             <Route path={routes.TASKS_ROUTE + '/:id'} element={<TaskPage />} />
             <Route path={routes.CLASSES_ROUTE} element={<ClassesPage />} />
             <Route path={routes.EXAMS_ROUTE} element={<ExamsPage />} />
-            <Route
-              path={'*'}
-              element={<Navigate to={routes.HOME_ROUTE} replace />}
-            />
-            {/* <Route path='*' element={<NotFound />} />  Не могу так как при авторизации редирект на Home не случается и путь остаеться signin это привеодит к Not found*/}
+            <Route path='*' element={<NotFoundPage />} />
           </Route>
         </Routes>
       ) : (
