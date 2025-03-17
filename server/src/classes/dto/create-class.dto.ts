@@ -9,6 +9,6 @@ export class CreateClassDto {
   readonly building: string;
   readonly teacher: string;
   readonly dayOfWeek: string[];
-  readonly startTime: string;
-  readonly endTime: string;
+  readonly startDay: string;
+  readonly endDay: string;
 }

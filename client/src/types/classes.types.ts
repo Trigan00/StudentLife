@@ -6,6 +6,14 @@ export interface Class {
   building: string;
   teacher: string;
   dayOfWeek: string[];
-  startTime: string;
-  endTime: string;
+  startDay: string | null;
+  endDay: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
+
+export type CreateClassDto = Omit<Omit<Partial<Class>, 'id'>, 'name'> & {
+  name: string;
+};
+
+export type UpdateClassDto = Omit<Partial<Class>, 'id'> & { id: number };

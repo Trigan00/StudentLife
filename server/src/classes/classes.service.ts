@@ -31,6 +31,7 @@ export class ClassesService {
       where: {
         userId,
       },
+      order: [['createdAt', 'ASC']],
     });
     return classesArr;
   }

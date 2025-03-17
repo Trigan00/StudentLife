@@ -13,7 +13,7 @@ interface ClassesCreationAttrs {
   userId: number;
 }
 
-@Table({ tableName: 'classes' })
+@Table({ tableName: 'classes', timestamps: true })
 export class Class extends Model<Class, ClassesCreationAttrs> {
   @Column({
     type: DataType.INTEGER,
@@ -46,11 +46,11 @@ export class Class extends Model<Class, ClassesCreationAttrs> {
   })
   dayOfWeek: string[];
 
-  @Column({ type: DataType.TIME, allowNull: true })
-  startTime: string;
+  @Column({ type: DataType.STRING, allowNull: true })
+  startDay: string;
 
-  @Column({ type: DataType.TIME, allowNull: true })
-  endTime: string;
+  @Column({ type: DataType.STRING, allowNull: true })
+  endDay: string;
 
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })
