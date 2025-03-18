@@ -14,7 +14,7 @@ function AddClassButton() {
           setIsClassForm(true);
         }}
       >
-        Добавить занятие
+        Добавить
       </Button>
 
       <ClassForm isModal={isClassForm} setIsModal={setIsClassForm} />

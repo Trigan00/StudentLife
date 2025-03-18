@@ -28,7 +28,7 @@ export class Task extends Model<Task, TasksCreationAttrs> {
   @Column({ type: DataType.STRING, allowNull: false })
   title: string;
 
-  @Column({ type: DataType.STRING, allowNull: true })
+  @Column({ type: DataType.TEXT, allowNull: true })
   description: string;
 
   @Column({ type: DataType.INTEGER, allowNull: true })

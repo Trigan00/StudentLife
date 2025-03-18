@@ -14,7 +14,7 @@ function AddClassButton() {
           setIsTaskForm(true);
         }}
       >
-        Добавить задачу
+        Добавить
       </Button>
 
       <TaskForm isModal={isTaskForm} setIsModal={setIsTaskForm} />

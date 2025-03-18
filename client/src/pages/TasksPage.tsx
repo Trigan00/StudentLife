@@ -1,9 +1,43 @@
 import AddTaskButton from '@/components/tasks/AddTaskButton';
 import { TaskForm } from '@/components/tasks/TaskForm';
 import { Loader } from '@/components/UI/Loader/Loader';
+import shortenText from '@/helpers/shortenText';
 import { useAllTasks } from '@/hooks/useTasks';
-import { Box, Stack, Button } from '@mui/material';
+import { COLORS } from '@/utils/GeneralConsts';
+import { Box, Stack, Button, Typography, SxProps } from '@mui/material';
 import React, { useState } from 'react';
+
+const makeCircle = (index: number | null): SxProps => {
+  let color = '';
+  switch (index) {
+    case 1:
+      color = 'green';
+      break;
+    case 2:
+      color = 'orange';
+      break;
+    case 3:
+      color = 'red';
+      break;
+
+    default:
+      color = 'grey';
+      break;
+  }
+  return {
+    position: 'relative',
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      top: 4,
+      left: -30,
+      height: '13px',
+      width: '13px',
+      borderRadius: '50%',
+      border: '2px solid ' + color,
+    },
+  };
+};
 
 const TasksPage: React.FC = () => {
   const { data, isLoading } = useAllTasks();
@@ -15,26 +49,40 @@ const TasksPage: React.FC = () => {
   }
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <Stack sx={{ flex: 1 }} spacing={2}>
-        {data?.map((taskInfo, i) => (
-          <Box key={taskInfo.id}>
-            {i + 1}
-            <Button
-              variant='contained'
-              sx={{ ml: 1, color: 'white' }}
+    <Box display={'flex'} justifyContent={'center'}>
+      <div>
+        <Stack direction='row' spacing={2} mb={2}>
+          <Typography variant='h5'>Задачи</Typography>
+          <AddTaskButton />
+        </Stack>
+        <Stack spacing={2} sx={{ width: 'fit-content' }}>
+          {data?.map((taskInfo, i) => (
+            <Box
+              key={taskInfo.id}
+              sx={{
+                ml: 1,
+                cursor: 'pointer',
+                borderBottom: '1px solid ' + COLORS.border,
+                '&:hover': {
+                  borderBottom: '1px solid ' + COLORS.textGrey,
+                },
+              }}
               onClick={() => {
                 setTaskId(taskInfo.id);
                 setIsTaskForm(true);
               }}
             >
-              {taskInfo.title}
-            </Button>
-          </Box>
-        ))}
-      </Stack>
+              <Typography sx={makeCircle(taskInfo.priority)}>
+                {taskInfo.title}
+              </Typography>
+              <Typography variant='subtitle2' color='textSecondary'>
+                {shortenText(taskInfo.description, 150)}
+              </Typography>
+            </Box>
+          ))}
+        </Stack>
+      </div>
 
-      <AddTaskButton />
       <TaskForm
         isModal={isTaskForm}
         setIsModal={setIsTaskForm}
