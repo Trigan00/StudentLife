@@ -13,6 +13,8 @@ import { join } from 'path';
 import { APP_GUARD } from '@nestjs/core';
 import { ClassesModule } from './classes/classes.module';
 import { Class } from './classes/classes.model';
+import { TasksModule } from './tasks/tasks.module';
+import { Task } from './tasks/tasks.model';
 
 @Module({
   imports: [
@@ -31,7 +33,7 @@ import { Class } from './classes/classes.model';
       define: {
         timestamps: false,
       },
-      models: [User, Token, Class],
+      models: [User, Token, Class, Task],
     }),
     // ServeStaticModule.forRoot({
     //   rootPath: join(__dirname, '..', '..', 'client', 'build'),
@@ -48,6 +50,7 @@ import { Class } from './classes/classes.model';
     // MailModule,
     TokenModule,
     ClassesModule,
+    TasksModule,
   ],
   controllers: [],
   // providers: [

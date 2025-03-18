@@ -1,5 +1,5 @@
-import AddClassButton from '@/components/AddClassButton';
-import { ClassForm } from '@/components/ClassForm';
+import AddClassButton from '@/components/classes/AddClassButton';
+import { ClassForm } from '@/components/classes/ClassForm';
 import { Loader } from '@/components/UI/Loader/Loader';
 import { useAllClasses } from '@/hooks/useClasses';
 import { Box, Button, Stack } from '@mui/material';
@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 const ClassesPage: React.FC = () => {
   const { data, isLoading } = useAllClasses();
   const [isClassForm, setIsClassForm] = useState(false);
-  const [taskId, setTaskId] = useState<number | undefined>();
+  const [classId, setClassId] = useState<number | undefined>();
 
   if (isLoading) {
     return <Loader />;
@@ -24,7 +24,7 @@ const ClassesPage: React.FC = () => {
               variant='contained'
               sx={{ ml: 1, color: 'white' }}
               onClick={() => {
-                setTaskId(classInfo.id);
+                setClassId(classInfo.id);
                 setIsClassForm(true);
               }}
             >
@@ -38,8 +38,8 @@ const ClassesPage: React.FC = () => {
       <ClassForm
         isModal={isClassForm}
         setIsModal={setIsClassForm}
-        id={taskId}
-        setTaskId={setTaskId}
+        id={classId}
+        setClassId={setClassId}
       />
     </Box>
   );

@@ -11,8 +11,8 @@ import {
   OutlinedInput,
 } from '@mui/material';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Loader } from './UI/Loader/Loader';
-import MyModal from './UI/MyModal';
+import { Loader } from '../UI/Loader/Loader';
+import MyModal from '../UI/MyModal';
 import {
   useAddClass,
   useDeleteClass,
@@ -20,19 +20,19 @@ import {
   useUpdateClass,
 } from '@/hooks/useClasses';
 import dayjs, { Dayjs } from 'dayjs';
-import MyDate from './UI/MyDate';
-import DayOfWeekSelect from './DayOfWeekSelect';
-import DeleteModal from './DeleteModal';
+import MyDate from '../UI/MyDate';
+import DayOfWeekSelect from '../DayOfWeekSelect';
+import DeleteModal from '../DeleteModal';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 interface ClassFormI {
   isModal: boolean;
   setIsModal: Dispatch<SetStateAction<boolean>>;
   id?: number;
-  setTaskId?: Dispatch<SetStateAction<number | undefined>>;
+  setClassId?: Dispatch<SetStateAction<number | undefined>>;
 }
 
-export function ClassForm({ isModal, setIsModal, id, setTaskId }: ClassFormI) {
+export function ClassForm({ isModal, setIsModal, id, setClassId }: ClassFormI) {
   const { data, isLoading } = useOneClass(id);
   const { addClass, isPending } = useAddClass(() => {
     onClose();
@@ -95,7 +95,7 @@ export function ClassForm({ isModal, setIsModal, id, setTaskId }: ClassFormI) {
       setEndDay(null);
       setDayOfWeek([]);
     }
-    setTaskId && setTaskId(undefined);
+    setClassId && setClassId(undefined);
   }
 
   return (
@@ -126,6 +126,7 @@ export function ClassForm({ isModal, setIsModal, id, setTaskId }: ClassFormI) {
               onChange={(e) => setName(e.target.value)}
               error={!!errMsg}
               helperText={errMsg}
+              required
               size='small'
               label='Название'
               variant='outlined'

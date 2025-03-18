@@ -17,7 +17,7 @@ import { SITE_NAME } from '@/utils/GeneralConsts';
 import TasksPage from '@/pages/TasksPage';
 import ClassesPage from '@/pages/ClassesPage';
 import ExamsPage from '@/pages/ExamsPage';
-import TaskPage from '@/pages/TaskPage';
+// import TaskPage from '@/pages/TaskPage';
 import NotFoundPage from '@/pages/NotFoundPage';
 
 const AppRouter = () => {
@@ -47,7 +47,7 @@ const AppRouter = () => {
           <Route path={routes.HOME_ROUTE} element={<Layout />}>
             <Route index element={<Home />} />
             <Route path={routes.TASKS_ROUTE} element={<TasksPage />} />
-            <Route path={routes.TASKS_ROUTE + '/:id'} element={<TaskPage />} />
+            {/* <Route path={routes.TASKS_ROUTE + '/:id'} element={<TaskPage />} /> */}
             <Route path={routes.CLASSES_ROUTE} element={<ClassesPage />} />
             <Route path={routes.EXAMS_ROUTE} element={<ExamsPage />} />
             <Route path='*' element={<NotFoundPage />} />

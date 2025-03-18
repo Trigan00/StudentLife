@@ -1,20 +1,47 @@
-import { routes } from '@/utils/routesConsts';
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import AddTaskButton from '@/components/tasks/AddTaskButton';
+import { TaskForm } from '@/components/tasks/TaskForm';
+import { Loader } from '@/components/UI/Loader/Loader';
+import { useAllTasks } from '@/hooks/useTasks';
+import { Box, Stack, Button } from '@mui/material';
+import React, { useState } from 'react';
 
 const TasksPage: React.FC = () => {
-  const navigate = useNavigate();
+  const { data, isLoading } = useAllTasks();
+  const [isTaskForm, setIsTaskForm] = useState(false);
+  const [taskId, setTaskId] = useState<number | undefined>();
 
-  const goToTask2 = () => {
-    navigate(`${routes.TASKS_ROUTE}/2`);
-  };
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
-    <div>
-      <h1>Tasks Page</h1>
-      <p>Welcome to the Tasks Page. Here you can manage all your tasks.</p>
-      <button onClick={goToTask2}>Перейти к задаче 2</button>
-    </div>
+    <Box sx={{ display: 'flex' }}>
+      <Stack sx={{ flex: 1 }} spacing={2}>
+        {data?.map((taskInfo, i) => (
+          <Box key={taskInfo.id}>
+            {i + 1}
+            <Button
+              variant='contained'
+              sx={{ ml: 1, color: 'white' }}
+              onClick={() => {
+                setTaskId(taskInfo.id);
+                setIsTaskForm(true);
+              }}
+            >
+              {taskInfo.title}
+            </Button>
+          </Box>
+        ))}
+      </Stack>
+
+      <AddTaskButton />
+      <TaskForm
+        isModal={isTaskForm}
+        setIsModal={setIsTaskForm}
+        id={taskId}
+        setTaskId={setTaskId}
+      />
+    </Box>
   );
 };
 

@@ -3,9 +3,11 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
+import { Task } from 'src/tasks/tasks.model';
 import { User } from 'src/users/users.model';
 
 interface ClassesCreationAttrs {
@@ -58,4 +60,7 @@ export class Class extends Model<Class, ClassesCreationAttrs> {
 
   @BelongsTo(() => User)
   user: User;
+
+  @HasMany(() => Task)
+  tasks: Task[];
 }
