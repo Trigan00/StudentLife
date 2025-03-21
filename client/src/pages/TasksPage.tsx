@@ -55,7 +55,7 @@ const TasksPage: React.FC = () => {
           <Typography variant='h5'>Задачи</Typography>
           <AddTaskButton />
         </Stack>
-        <Stack spacing={2} sx={{ width: 'fit-content' }}>
+        <Stack spacing={2} sx={{ width: 'fit-content', ml: 3 }}>
           {data?.map((taskInfo, i) => (
             <Box
               key={taskInfo.id}
