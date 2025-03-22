@@ -25,6 +25,7 @@ import {
 } from '@/hooks/useTasks';
 import MyDateAndTime from '../UI/MyDateAndTime';
 import { useAllClasses } from '@/hooks/useClasses';
+import { Comments } from './Comments';
 
 interface TaskFormI {
   isModal: boolean;
@@ -228,6 +229,7 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
               </div>
             </Box>
           )}
+          {!!id && <Comments taskId={id} />}
         </>
       )}
       {!!id && (

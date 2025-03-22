@@ -15,6 +15,9 @@ import { ClassesModule } from './classes/classes.module';
 import { Class } from './classes/classes.model';
 import { TasksModule } from './tasks/tasks.module';
 import { Task } from './tasks/tasks.model';
+import { CommentsModule } from './comments/comments.module';
+import { Comment } from './comments/entities/comments.model';
+import { FileAttachment } from './comments/entities/file-attachment.model.ts';
 
 @Module({
   imports: [
@@ -33,11 +36,11 @@ import { Task } from './tasks/tasks.model';
       define: {
         timestamps: false,
       },
-      models: [User, Token, Class, Task],
+      models: [User, Token, Class, Task, Comment, FileAttachment],
     }),
-    // ServeStaticModule.forRoot({
-    //   rootPath: join(__dirname, '..', '..', 'client', 'build'),
-    // }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', '..', 'client', 'build'),
+    }),
 
     // ThrottlerModule.forRoot({
     //   ttl: 60000,
@@ -51,6 +54,7 @@ import { Task } from './tasks/tasks.model';
     TokenModule,
     ClassesModule,
     TasksModule,
+    CommentsModule,
   ],
   controllers: [],
   // providers: [

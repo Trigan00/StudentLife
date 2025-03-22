@@ -7,9 +7,9 @@ import * as jwt from 'jsonwebtoken';
 export class TokenService {
   constructor(@InjectModel(Token) private tokenRepo: typeof Token) {}
 
-  generateTokens(payload: { email: string; id: number }) {
+  generateTokens(payload: { email: string; username: string; id: number }) {
     const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
-      expiresIn: '1m',
+      expiresIn: '10m',
     });
     const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {
       expiresIn: '1d',

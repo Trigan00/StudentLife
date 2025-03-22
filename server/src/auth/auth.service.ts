@@ -67,6 +67,7 @@ export class AuthService {
     // const secretKey = CryptoJS.SHA256(userDto.password);
     const tokens = this.tokenService.generateTokens({
       email: user.dataValues.email,
+      username: user.username,
       id: user.dataValues.id,
     });
     await this.tokenService.saveToken(user.id, tokens.refreshToken);
@@ -150,6 +151,7 @@ export class AuthService {
     );
     const tokens = this.tokenService.generateTokens({
       email: user.email,
+      username: user.username,
       id: user.id,
     });
 

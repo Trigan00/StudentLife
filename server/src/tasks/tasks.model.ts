@@ -3,10 +3,12 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { Class } from 'src/classes/classes.model';
+import { Comment } from 'src/comments/entities/comments.model';
 import { User } from 'src/users/users.model';
 
 interface TasksCreationAttrs {
@@ -50,4 +52,7 @@ export class Task extends Model<Task, TasksCreationAttrs> {
 
   @BelongsTo(() => Class)
   class: Class;
+
+  @HasMany(() => Comment)
+  comments: Comment[];
 }

@@ -7,6 +7,7 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Class } from 'src/classes/classes.model';
+import { Comment } from 'src/comments/entities/comments.model';
 import { Task } from 'src/tasks/tasks.model';
 // import { Password } from 'src/passwords/passwords.model';
 import { Token } from 'src/token/token.model';
@@ -58,4 +59,7 @@ export class User extends Model<User, UserCreationAttrs> {
 
   @HasMany(() => Task)
   tasks: Task[];
+
+  @HasMany(() => Comment)
+  comments: Comment[];
 }
