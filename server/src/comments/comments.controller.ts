@@ -51,7 +51,6 @@ export class CommentsController {
     @Body()
     createCommentDto: CreateCommentDto,
   ) {
-    console.log(files);
     return this.commentsService.create(
       +req.user.id,
       req.user.username,

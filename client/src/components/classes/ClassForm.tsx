@@ -263,7 +263,7 @@ export function ClassForm({ isModal, setIsModal, id, setClassId }: ClassFormI) {
           deleteFunction={() => deleteClass(id)}
           isLoading={isDeletePending}
           title='Удалить занятие?'
-          subtitle={`Занятие «${name}» будет безвозвратно удалено.`}
+          subtitle={`Занятие «${name}» и все связанные с ним задачи будут безвозвратно удалены.`}
           confirmation='Удалить занятие.'
         />
       )}

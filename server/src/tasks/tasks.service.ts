@@ -3,6 +3,10 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { Task } from './tasks.model';
 import { InjectModel } from '@nestjs/sequelize';
+import { FileAttachment } from 'src/comments/entities/file-attachment.model.ts';
+import * as fs from 'fs';
+import * as path from 'path';
+import { Comment } from 'src/comments/entities/comments.model';
 
 @Injectable()
 export class TasksService {
@@ -54,6 +58,34 @@ export class TasksService {
   }
 
   async remove(id: number) {
+    const taskInfo = await this.TaskRepo.findOne({
+      where: { id },
+      include: [
+        {
+          model: Comment,
+          include: [FileAttachment],
+        },
+      ],
+    });
+
+    if (taskInfo.comments.length) {
+      for (const comment of taskInfo.comments) {
+        if (comment.attachments.length) {
+          for (const attachment of comment.attachments) {
+            const filePath = path.join(
+              __dirname,
+              '../../uploads',
+              attachment.path,
+            );
+
+            if (fs.existsSync(filePath)) {
+              fs.unlinkSync(filePath);
+            }
+          }
+        }
+      }
+    }
+
     await this.TaskRepo.destroy({
       where: {
         id,
