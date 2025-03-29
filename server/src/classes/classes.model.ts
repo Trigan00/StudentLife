@@ -41,18 +41,19 @@ export class Class extends Model<Class, ClassesCreationAttrs> {
   teacher: string;
 
   @Column({
-    type: DataType.ARRAY(
-      DataType.ENUM('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'),
-    ),
+    type: DataType.JSONB,
     allowNull: true,
   })
-  dayOfWeek: string[];
+  schedule: { day: string; startTime: string; evenness: string }[]; //day: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
 
   @Column({ type: DataType.STRING, allowNull: true })
   startDay: string;
 
   @Column({ type: DataType.STRING, allowNull: true })
   endDay: string;
+
+  @Column({ type: DataType.STRING, allowNull: true })
+  examType: string; //credit/exam/null
 
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })

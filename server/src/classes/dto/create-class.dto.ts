@@ -8,7 +8,8 @@ export class CreateClassDto {
   readonly room: string;
   readonly building: string;
   readonly teacher: string;
-  readonly dayOfWeek: string[];
+  readonly schedule: { day: string; startTime: string; evenness: string }[];
   readonly startDay: string;
   readonly endDay: string;
+  readonly examType: string;
 }

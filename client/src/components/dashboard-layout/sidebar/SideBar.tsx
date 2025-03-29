@@ -89,7 +89,7 @@ export default function SideBar({ open, toggleDrawer }: ISideBar) {
                 <ClassIcon />
               </ListItemIcon>
               <ListItemText
-                primary={<Typography fontSize='1.1rem'>Занятия</Typography>}
+                primary={<Typography fontSize='1.1rem'>Предметы</Typography>}
               />
             </ListItemButton>
             <ListItemButton

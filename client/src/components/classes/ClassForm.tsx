@@ -21,7 +21,7 @@ import {
 } from '@/hooks/useClasses';
 import dayjs, { Dayjs } from 'dayjs';
 import MyDate from '../UI/MyDate';
-import DayOfWeekSelect from '../DayOfWeekSelect';
+import ScheduleSelect from '../ScheduleSelect';
 import DeleteModal from '../DeleteModal';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -51,7 +51,10 @@ export function ClassForm({ isModal, setIsModal, id, setClassId }: ClassFormI) {
   const [building, setBuilding] = useState('');
   const [startDay, setStartDay] = useState<Dayjs | null>(null);
   const [endDay, setEndDay] = useState<Dayjs | null>(null);
-  const [dayOfWeek, setDayOfWeek] = useState<string[]>([]);
+  const [schedule, setSchedule] = useState<
+    { day: string; startTime: string; evenness: string }[]
+  >([]);
+  const [examType, setExamType] = useState('');
 
   const [deleteModal, setDeleteModal] = useState(false);
 
@@ -64,7 +67,8 @@ export function ClassForm({ isModal, setIsModal, id, setClassId }: ClassFormI) {
       setBuilding(data.building);
       setStartDay(data.startDay ? dayjs(data.startDay) : null);
       setEndDay(data.endDay ? dayjs(data.endDay) : null);
-      setDayOfWeek(data.dayOfWeek);
+      setSchedule(data.schedule);
+      setExamType(data.examType);
     }
   }, [data]);
 
@@ -76,9 +80,10 @@ export function ClassForm({ isModal, setIsModal, id, setClassId }: ClassFormI) {
       room,
       building,
       teacher,
-      dayOfWeek,
+      schedule,
       startDay: startDay?.format() || null,
       endDay: endDay?.format() || null,
+      examType,
     };
     !!id ? updateClass({ id, ...data }) : addClass(data);
   };
@@ -93,7 +98,8 @@ export function ClassForm({ isModal, setIsModal, id, setClassId }: ClassFormI) {
       setBuilding('');
       setStartDay(null);
       setEndDay(null);
-      setDayOfWeek([]);
+      setSchedule([]);
+      setExamType('');
     }
     setClassId && setClassId(undefined);
   }
@@ -113,7 +119,7 @@ export function ClassForm({ isModal, setIsModal, id, setClassId }: ClassFormI) {
           textAlign: 'center',
         }}
       >
-        {!!id ? 'Редактировать занятие' : 'Добавить занятие'}
+        {!!id ? 'Редактировать предмет' : 'Добавить предмет'}
       </Typography>
 
       {isLoading ? (
@@ -148,12 +154,12 @@ export function ClassForm({ isModal, setIsModal, id, setClassId }: ClassFormI) {
               />
 
               <FormControl size='small' sx={{ width: '50%' }}>
-                <InputLabel id='mode-label'>Тип</InputLabel>
+                <InputLabel id='mode-label'>Формат обучения</InputLabel>
                 <Select
                   value={mode}
                   labelId='mode-label'
                   onChange={(e) => setMode(e.target.value)}
-                  input={<OutlinedInput label='Тип' />}
+                  input={<OutlinedInput label='Формат обучения' />}
                 >
                   <MenuItem value={'online'}>Онлайн</MenuItem>
                   <MenuItem value={'in person'}>Офлайн</MenuItem>
@@ -184,6 +190,19 @@ export function ClassForm({ isModal, setIsModal, id, setClassId }: ClassFormI) {
                 }}
               />
             </Stack>
+            <FormControl size='small' sx={{ width: '50%' }}>
+              <InputLabel id='ExamType-label'>Тип аттестации</InputLabel>
+              <Select
+                value={examType}
+                labelId='ExamType-label'
+                onChange={(e) => setExamType(e.target.value)}
+                input={<OutlinedInput label='Тип аттестации' />}
+              >
+                <MenuItem value={'exam'}>Экзамен</MenuItem>
+                <MenuItem value={'credit'}>Зачёт</MenuItem>
+                <MenuItem value={'no'}>Нет</MenuItem>
+              </Select>
+            </FormControl>
 
             <Typography variant='h6' color='textSecondary' fontWeight='bold'>
               Расписание
@@ -203,10 +222,7 @@ export function ClassForm({ isModal, setIsModal, id, setClassId }: ClassFormI) {
               />
             </Stack>
 
-            <DayOfWeekSelect
-              dayOfWeek={dayOfWeek}
-              setDatOfWeek={setDayOfWeek}
-            />
+            <ScheduleSelect schedule={schedule} setSchedule={setSchedule} />
           </Stack>
 
           {isPending || isUpdatePending || isDeletePending ? (
