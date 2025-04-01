@@ -18,6 +18,7 @@ import { Task } from './tasks/tasks.model';
 import { CommentsModule } from './comments/comments.module';
 import { Comment } from './comments/entities/comments.model';
 import { FileAttachment } from './comments/entities/file-attachment.model.ts';
+import { ScheduleModule } from './schedule/schedule.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { FileAttachment } from './comments/entities/file-attachment.model.ts';
     ClassesModule,
     TasksModule,
     CommentsModule,
+    ScheduleModule,
   ],
   controllers: [],
   // providers: [

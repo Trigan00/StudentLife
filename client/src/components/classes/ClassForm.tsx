@@ -19,8 +19,6 @@ import {
   useOneClass,
   useUpdateClass,
 } from '@/hooks/useClasses';
-import dayjs, { Dayjs } from 'dayjs';
-import MyDate from '../UI/MyDate';
 import ScheduleSelect from '../ScheduleSelect';
 import DeleteModal from '../DeleteModal';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -49,8 +47,6 @@ export function ClassForm({ isModal, setIsModal, id, setClassId }: ClassFormI) {
   const [mode, setMode] = useState('');
   const [room, setRoom] = useState('');
   const [building, setBuilding] = useState('');
-  const [startDay, setStartDay] = useState<Dayjs | null>(null);
-  const [endDay, setEndDay] = useState<Dayjs | null>(null);
   const [schedule, setSchedule] = useState<
     { day: string; startTime: string; evenness: string }[]
   >([]);
@@ -65,8 +61,6 @@ export function ClassForm({ isModal, setIsModal, id, setClassId }: ClassFormI) {
       setMode(data.mode);
       setRoom(data.room);
       setBuilding(data.building);
-      setStartDay(data.startDay ? dayjs(data.startDay) : null);
-      setEndDay(data.endDay ? dayjs(data.endDay) : null);
       setSchedule(data.schedule);
       setExamType(data.examType);
     }
@@ -81,8 +75,6 @@ export function ClassForm({ isModal, setIsModal, id, setClassId }: ClassFormI) {
       building,
       teacher,
       schedule,
-      startDay: startDay?.format() || null,
-      endDay: endDay?.format() || null,
       examType,
     };
     !!id ? updateClass({ id, ...data }) : addClass(data);
@@ -96,8 +88,6 @@ export function ClassForm({ isModal, setIsModal, id, setClassId }: ClassFormI) {
       setMode('');
       setRoom('');
       setBuilding('');
-      setStartDay(null);
-      setEndDay(null);
       setSchedule([]);
       setExamType('');
     }
@@ -207,20 +197,6 @@ export function ClassForm({ isModal, setIsModal, id, setClassId }: ClassFormI) {
             <Typography variant='h6' color='textSecondary' fontWeight='bold'>
               Расписание
             </Typography>
-            <Stack direction='row' spacing={2}>
-              <MyDate
-                value={startDay}
-                setValue={setStartDay}
-                label='Начало'
-                sx={{ width: '50%' }}
-              />
-              <MyDate
-                value={endDay}
-                setValue={setEndDay}
-                label='Конец'
-                sx={{ width: '50%' }}
-              />
-            </Stack>
 
             <ScheduleSelect schedule={schedule} setSchedule={setSchedule} />
           </Stack>

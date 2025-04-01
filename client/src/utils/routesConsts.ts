@@ -6,4 +6,5 @@ export const routes = {
   TASKS_ROUTE: '/tasks',
   CLASSES_ROUTE: '/classes',
   EXAMS_ROUTE: '/exams',
+  SCHEDULE_ROUTE: '/schedule',
 };

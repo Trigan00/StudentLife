@@ -6,8 +6,6 @@ export interface Class {
   building: string;
   teacher: string;
   schedule: { day: string; startTime: string; evenness: string }[];
-  startDay: string | null;
-  endDay: string | null;
   examType: string;
   createdAt: string;
   updatedAt: string;

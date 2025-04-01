@@ -20,6 +20,7 @@ import TaskIcon from '@mui/icons-material/Task';
 import ClassIcon from '@mui/icons-material/Class';
 import SchoolIcon from '@mui/icons-material/School';
 import TimerIcon from '@mui/icons-material/Timer';
+import EventNoteIcon from '@mui/icons-material/EventNote';
 
 interface ISideBar {
   open: boolean;
@@ -108,6 +109,19 @@ export default function SideBar({ open, toggleDrawer }: ISideBar) {
             </ListItemButton>
           </List>
         </Collapse>
+        <ListItemButton
+          onClick={onClickHandler}
+          component={Link}
+          to={routes.SCHEDULE_ROUTE}
+          selected={isActive(routes.SCHEDULE_ROUTE)}
+        >
+          <ListItemIcon>
+            <EventNoteIcon />
+          </ListItemIcon>
+          <ListItemText
+            primary={<Typography fontSize='1.1rem'>Расписание</Typography>}
+          />
+        </ListItemButton>
         {/* <Divider />  */}
       </List>
       <List>
