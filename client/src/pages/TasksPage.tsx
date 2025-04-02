@@ -67,13 +67,19 @@ const TaskCard: React.FC<TaskCardI> = ({
           setIsTaskForm(true);
         }}
       >
-        <Typography>{taskInfo.title}</Typography>
+        <Typography
+          sx={{ textDecoration: taskInfo.completed ? 'line-through' : 'none' }}
+        >
+          {taskInfo.title}
+        </Typography>
         {/* <Typography sx={makeCircle(taskInfo.priority)}>
       {taskInfo.title}
     </Typography> */}
-        <Typography variant='subtitle2' color='textSecondary'>
-          {shortenText(taskInfo.description, 150)}
-        </Typography>
+        {!taskInfo.completed && (
+          <Typography variant='subtitle2' color='textSecondary'>
+            {shortenText(taskInfo.description, 150)}
+          </Typography>
+        )}
       </Box>
     </Box>
   );

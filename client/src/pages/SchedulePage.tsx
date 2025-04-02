@@ -14,13 +14,8 @@ const SchedulePage = () => {
 
   const weekNumber = active.week();
 
-  // Определяем, четная или нечетная неделя
-  const isEvenWeek = weekNumber % 2 === 0 ? 'четная' : 'нечетная';
-
-  // Форматируем дату
+  const isEvenWeek = weekNumber % 2 === 0 ? 'even' : 'odd';
   const formattedDate = active.format('dddd, D MMMM');
-
-  // Итоговая строка
 
   if (isLoading) {
     return <Loader />;
@@ -55,40 +50,47 @@ const SchedulePage = () => {
               },
             }}
           >
-            {isEvenWeek} неделя
+            {isEvenWeek === 'even' ? 'Четная' : 'Нечетная'} неделя
           </Typography>
         </Box>
         <Stack spacing={2} mt={2}>
           {data &&
-            data[active.day()].map((classEl) => (
-              <Card
-                variant='outlined'
-                key={classEl.id}
-                sx={{
-                  p: 2,
-                  borderRadius: '15px',
-                  display: 'flex',
-                  cursor: 'pointer',
-                }}
-              >
-                <Box sx={{ maxWidth: '500px', width: '100%' }}>
-                  <Typography variant='h6' fontWeight={'bold'}>
-                    {classEl.name}
-                  </Typography>
-                  {classEl.building && (
-                    <Typography variant='body1'>
-                      Здание: {classEl.building}
+            data[active.day()].map((classEl) => {
+              return classEl.evenness === isEvenWeek ||
+                classEl.evenness === 'always' ? (
+                <Card
+                  variant='outlined'
+                  key={classEl.id}
+                  sx={{
+                    p: 2,
+                    borderRadius: '15px',
+                    display: 'flex',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <Box sx={{ maxWidth: '500px', width: '100%' }}>
+                    <Typography variant='h6' fontWeight={'bold'}>
+                      {classEl.name}
                     </Typography>
-                  )}
-                  {classEl.room && (
-                    <Typography variant='body1'>Ауд: {classEl.room}</Typography>
-                  )}
-                </Box>
-                <Box>
-                  <Typography>{dayjs(classEl.time).format('HH:mm')}</Typography>
-                </Box>
-              </Card>
-            ))}
+                    {classEl.building && (
+                      <Typography variant='body1'>
+                        Здание: {classEl.building}
+                      </Typography>
+                    )}
+                    {classEl.room && (
+                      <Typography variant='body1'>
+                        Ауд: {classEl.room}
+                      </Typography>
+                    )}
+                  </Box>
+                  <Box>
+                    <Typography>
+                      {dayjs(classEl.time).format('HH:mm')}
+                    </Typography>
+                  </Box>
+                </Card>
+              ) : null;
+            })}
         </Stack>
       </Box>
     </Box>

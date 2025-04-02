@@ -23,6 +23,7 @@ export class ScheduleService {
             classesPerDay.push({
               ...classEl.dataValues,
               time: shedEl.startTime,
+              evenness: shedEl.evenness,
             });
         });
       });
