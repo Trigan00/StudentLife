@@ -21,7 +21,7 @@ export const tasksService = {
   },
 
   async update(data: UpdateTaskDto) {
-    const response = await axiosWithAuth.patch<{ message: string }>(
+    const response = await axiosWithAuth.patch<{ id: number; message: string }>(
       '/tasks/' + data.id,
       data,
     );

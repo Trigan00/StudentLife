@@ -61,6 +61,9 @@ export function useUpdateTask(id?: number, onSuccessFunc?: () => void) {
       queryClient.invalidateQueries({
         queryKey: ['tasks'],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['task', res.data.id],
+      });
       onSuccessFunc && onSuccessFunc();
     },
     onError(error: any) {

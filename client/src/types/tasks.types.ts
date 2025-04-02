@@ -7,6 +7,7 @@ export interface Task {
   classId: number;
   createdAt: string;
   updatedAt: string;
+  completed: boolean;
 }
 
 export type CreateTaskDto = Omit<

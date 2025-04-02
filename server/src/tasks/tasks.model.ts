@@ -39,6 +39,9 @@ export class Task extends Model<Task, TasksCreationAttrs> {
   @Column({ type: DataType.STRING, allowNull: true })
   deadLine: string;
 
+  @Column({ type: DataType.BOOLEAN, defaultValue: false, allowNull: false })
+  completed: boolean;
+
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })
   userId: number;

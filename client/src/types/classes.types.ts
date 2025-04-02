@@ -9,6 +9,7 @@ export interface Class {
   examType: string;
   createdAt: string;
   updatedAt: string;
+  completed: boolean;
 }
 
 export type CreateClassDto = Omit<Omit<Partial<Class>, 'id'>, 'name'> & {

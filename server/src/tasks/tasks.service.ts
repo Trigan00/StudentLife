@@ -54,7 +54,7 @@ export class TasksService {
   async update(id: number, updateTaskDto: UpdateTaskDto) {
     this.TaskRepo.update(updateTaskDto, { where: { id } });
 
-    return { message: 'Задача обновлена' };
+    return { id, message: 'Задача обновлена' };
   }
 
   async remove(id: number) {

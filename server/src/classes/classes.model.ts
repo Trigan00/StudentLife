@@ -49,6 +49,9 @@ export class Class extends Model<Class, ClassesCreationAttrs> {
   @Column({ type: DataType.STRING, allowNull: true })
   examType: string; //credit/exam/null
 
+  @Column({ type: DataType.BOOLEAN, defaultValue: false, allowNull: false })
+  completed: boolean;
+
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })
   userId: number;
