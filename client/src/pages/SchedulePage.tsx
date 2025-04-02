@@ -1,7 +1,7 @@
 import Dates from '@/components/schedule/Dates';
 import { Loader } from '@/components/UI/Loader/Loader';
 import { useSchedule } from '@/hooks/useShedule';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Button, Card, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import { useState } from 'react';
@@ -61,19 +61,33 @@ const SchedulePage = () => {
         <Stack spacing={2} mt={2}>
           {data &&
             data[active.day()].map((classEl) => (
-              <Box key={classEl.id} sx={{ maxWidth: '500px' }}>
-                <Typography variant='h6' fontWeight={'bold'}>
-                  {classEl.name}
-                </Typography>
-                {classEl.building && (
-                  <Typography variant='body1'>
-                    Здание: {classEl.building}
+              <Card
+                variant='outlined'
+                key={classEl.id}
+                sx={{
+                  p: 2,
+                  borderRadius: '15px',
+                  display: 'flex',
+                  cursor: 'pointer',
+                }}
+              >
+                <Box sx={{ maxWidth: '500px', width: '100%' }}>
+                  <Typography variant='h6' fontWeight={'bold'}>
+                    {classEl.name}
                   </Typography>
-                )}
-                {classEl.room && (
-                  <Typography variant='body1'>Ауд: {classEl.room}</Typography>
-                )}
-              </Box>
+                  {classEl.building && (
+                    <Typography variant='body1'>
+                      Здание: {classEl.building}
+                    </Typography>
+                  )}
+                  {classEl.room && (
+                    <Typography variant='body1'>Ауд: {classEl.room}</Typography>
+                  )}
+                </Box>
+                <Box>
+                  <Typography>{dayjs(classEl.time).format('HH:mm')}</Typography>
+                </Box>
+              </Card>
             ))}
         </Stack>
       </Box>

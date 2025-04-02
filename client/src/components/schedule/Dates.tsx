@@ -35,7 +35,7 @@ const Dates: React.FC<DatesI> = ({ active, setActive }) => {
   }, []);
 
   const onClick = (day: dayjs.Dayjs) => {
-    console.log(day.day());
+    // console.log(day.day());
     setActive(day);
   };
 
