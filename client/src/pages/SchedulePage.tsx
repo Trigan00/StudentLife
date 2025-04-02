@@ -53,7 +53,7 @@ const SchedulePage = () => {
             {isEvenWeek === 'even' ? 'Четная' : 'Нечетная'} неделя
           </Typography>
         </Box>
-        <Stack spacing={2} mt={2}>
+        <Stack spacing={2} mt={2} sx={{ maxWidth: '500px', width: '100%' }}>
           {data &&
             data[active.day()].map((classEl) => {
               return classEl.evenness === isEvenWeek ||
@@ -68,7 +68,7 @@ const SchedulePage = () => {
                     cursor: 'pointer',
                   }}
                 >
-                  <Box sx={{ maxWidth: '500px', width: '100%' }}>
+                  <Box flex={1}>
                     <Typography variant='h6' fontWeight={'bold'}>
                       {classEl.name}
                     </Typography>
