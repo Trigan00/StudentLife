@@ -16,7 +16,7 @@ const ClassesPage: React.FC = () => {
 
   return (
     <Container>
-      <Stack direction='row' spacing={2} mb={2}>
+      <Stack direction='row' spacing={2} ml={5} mb={2}>
         <Typography variant='h5'>Предметы</Typography>
         <AddClassButton />
       </Stack>

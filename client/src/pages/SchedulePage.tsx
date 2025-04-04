@@ -1,15 +1,18 @@
 import Dates from '@/components/schedule/Dates';
 import { Loader } from '@/components/UI/Loader/Loader';
 import { useSchedule } from '@/hooks/useShedule';
-import { Box, Button, Card, Stack, Typography } from '@mui/material';
+import { routes } from '@/utils/routesConsts';
+import { Box, Card, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 dayjs.extend(weekOfYear);
 
 const SchedulePage = () => {
   const { data, isLoading } = useSchedule();
+  const navigate = useNavigate();
   const [active, setActive] = useState(dayjs());
 
   const weekNumber = active.week();
@@ -67,6 +70,14 @@ const SchedulePage = () => {
                     display: 'flex',
                     cursor: 'pointer',
                   }}
+                  onClick={() =>
+                    navigate(
+                      routes.CLASS_TASKS_ROUTE +
+                        `?classId=${classEl.id}&name=${encodeURIComponent(
+                          classEl.name,
+                        )}&date=${encodeURIComponent(classEl.time)}`,
+                    )
+                  }
                 >
                   <Box flex={1}>
                     <Typography variant='h6' fontWeight={'bold'}>

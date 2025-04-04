@@ -6,6 +6,18 @@ export const tasksService = {
     const response = await axiosWithAuth.get<Task[]>('/tasks');
     return response;
   },
+  async getBySubject(classId: number, deadline: string) {
+    const response = await axiosWithAuth.get<{
+      dayTasks: Task[];
+      classTasks: Task[];
+    }>('/tasks/by_subject', {
+      params: {
+        classId,
+        deadline,
+      },
+    });
+    return response;
+  },
 
   async getOne(id: number) {
     const response = await axiosWithAuth.get<Task>('/tasks/' + id);
@@ -13,25 +25,27 @@ export const tasksService = {
   },
 
   async create(data: CreateTaskDto) {
-    const response = await axiosWithAuth.post<{ message: string }>(
-      '/tasks',
-      data,
-    );
+    const response = await axiosWithAuth.post<{
+      classId: number;
+      message: string;
+    }>('/tasks', data);
     return response;
   },
 
   async update(data: UpdateTaskDto) {
-    const response = await axiosWithAuth.patch<{ id: number; message: string }>(
-      '/tasks/' + data.id,
-      data,
-    );
+    const response = await axiosWithAuth.patch<{
+      id: number;
+      classId: number;
+      message: string;
+    }>('/tasks/' + data.id, data);
     return response;
   },
 
   async delete(id: number) {
-    const response = await axiosWithAuth.delete<{ message: string }>(
-      '/tasks/' + id,
-    );
+    const response = await axiosWithAuth.delete<{
+      classId: number;
+      message: string;
+    }>('/tasks/' + id);
     return response;
   },
 };

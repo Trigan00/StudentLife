@@ -7,6 +7,7 @@ import { FileAttachment } from 'src/comments/entities/file-attachment.model.ts';
 import * as fs from 'fs';
 import * as path from 'path';
 import { Comment } from 'src/comments/entities/comments.model';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class TasksService {
@@ -31,7 +32,7 @@ export class TasksService {
       userId,
     });
 
-    return { message: 'Задача добавлена' };
+    return { classId: createTaskDto.classId, message: 'Задача добавлена' };
   }
 
   async findAll(userId: number) {
@@ -44,6 +45,26 @@ export class TasksService {
     return tasksArr;
   }
 
+  async findBySubject(userId: number, classId: number, deadline: string) {
+    const dayTasks = await this.TaskRepo.findAll({
+      where: { userId, classId, deadLine: deadline },
+    });
+
+    const dayTaskIds = dayTasks.map((task) => task.id);
+
+    const classTasks = await this.TaskRepo.findAll({
+      where: {
+        userId,
+        classId,
+        id: {
+          [Op.notIn]: dayTaskIds,
+        },
+      },
+      order: [['createdAt', 'ASC']],
+    });
+    return { dayTasks, classTasks };
+  }
+
   async findOne(id: number) {
     const taskInfo = await this.TaskRepo.findOne({
       where: { id },
@@ -53,8 +74,11 @@ export class TasksService {
 
   async update(id: number, updateTaskDto: UpdateTaskDto) {
     this.TaskRepo.update(updateTaskDto, { where: { id } });
+    const taskInfo = await this.TaskRepo.findOne({
+      where: { id },
+    });
 
-    return { id, message: 'Задача обновлена' };
+    return { id, classId: taskInfo.classId, message: 'Задача обновлена' };
   }
 
   async remove(id: number) {
@@ -91,6 +115,6 @@ export class TasksService {
         id,
       },
     });
-    return { message: 'Задача удалена' };
+    return { classId: taskInfo.classId, message: 'Задача удалена' };
   }
 }

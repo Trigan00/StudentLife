@@ -18,6 +18,19 @@ export function useAllTasks() {
   return { data: data?.data, isLoading };
 }
 
+export function useTasksBySubject(classId: number, deadline: string) {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['tasksBySubject', classId],
+    queryFn: () => tasksService.getBySubject(classId, deadline),
+  });
+
+  useEffect(() => {
+    if (error) toast.error(errorCatch(error));
+  }, [error]);
+
+  return { data: data?.data, isLoading };
+}
+
 export function useOneTask(id?: number) {
   const { data, isLoading, error } = useQuery({
     queryKey: ['task', id],
@@ -42,6 +55,9 @@ export function useAddTask(onSuccessFunc: () => void) {
       queryClient.invalidateQueries({
         queryKey: ['tasks'],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['tasksBySubject', res.data.classId],
+      });
       onSuccessFunc();
     },
     onError: (error: any) => toast.error(errorCatch(error)),
@@ -64,6 +80,9 @@ export function useUpdateTask(id?: number, onSuccessFunc?: () => void) {
       queryClient.invalidateQueries({
         queryKey: ['task', res.data.id],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['tasksBySubject', res.data.classId],
+      });
       onSuccessFunc && onSuccessFunc();
     },
     onError(error: any) {
@@ -83,6 +102,9 @@ export function useDeleteTask(onDelete: () => void) {
     onSuccess(res) {
       queryClient.invalidateQueries({
         queryKey: ['tasks'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['tasksBySubject', res.data.classId],
       });
       onDelete();
       toast.success(res.data.message);

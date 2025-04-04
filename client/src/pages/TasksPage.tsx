@@ -1,89 +1,11 @@
 import AddTaskButton from '@/components/tasks/AddTaskButton';
+import TaskCard from '@/components/tasks/TaskCard';
 import { TaskForm } from '@/components/tasks/TaskForm';
 import { Loader } from '@/components/UI/Loader/Loader';
-import { BpCheckedIcon, BpIcon } from '@/components/UI/MyChexbox';
-import shortenText from '@/helpers/shortenText';
 import { useAllTasks, useUpdateTask } from '@/hooks/useTasks';
 import { Task } from '@/types/tasks.types';
-import { COLORS } from '@/utils/GeneralConsts';
-import { Box, Stack, Typography, Checkbox, Container } from '@mui/material';
+import { Stack, Typography, Container } from '@mui/material';
 import React, { useState } from 'react';
-
-const makeColor = (index: number | null) => {
-  let color = '';
-  switch (index) {
-    case 1:
-      color = 'green';
-      break;
-    case 2:
-      color = 'orange';
-      break;
-    case 3:
-      color = 'red';
-      break;
-
-    default:
-      color = 'grey';
-      break;
-  }
-  return color;
-};
-
-interface TaskCardI {
-  setIsTaskForm: React.Dispatch<React.SetStateAction<boolean>>;
-  setTaskId: React.Dispatch<React.SetStateAction<number | undefined>>;
-  taskInfo: Task;
-  onDoneHandler: (task: Task) => void;
-}
-const TaskCard: React.FC<TaskCardI> = ({
-  taskInfo,
-  onDoneHandler,
-  setIsTaskForm,
-  setTaskId,
-}) => {
-  return (
-    <Box sx={{ display: 'flex' }}>
-      <Checkbox
-        checked={taskInfo.completed}
-        onClick={() => onDoneHandler(taskInfo)}
-        checkedIcon={<BpCheckedIcon color={makeColor(taskInfo.priority)} />}
-        icon={<BpIcon color={makeColor(taskInfo.priority)} />}
-        sx={{
-          alignSelf: 'start',
-        }}
-      />
-      <Box
-        flex={1}
-        sx={{
-          ml: 1,
-          cursor: 'pointer',
-          borderBottom: '1px solid ' + COLORS.border,
-          '&:hover': {
-            borderBottom: '1px solid ' + COLORS.textGrey,
-          },
-        }}
-        onClick={() => {
-          setTaskId(taskInfo.id);
-          setIsTaskForm(true);
-        }}
-      >
-        <Typography
-          sx={{ textDecoration: taskInfo.completed ? 'line-through' : 'none' }}
-        >
-          {taskInfo.title}
-        </Typography>
-        {/* <Typography sx={makeCircle(taskInfo.priority)}>
-      {taskInfo.title}
-    </Typography> */}
-        {!taskInfo.completed && (
-          <Typography variant='subtitle2' color='textSecondary'>
-            {shortenText(taskInfo.description, 150)}
-          </Typography>
-        )}
-      </Box>
-    </Box>
-  );
-};
 
 const TasksPage: React.FC = () => {
   const { data, isLoading } = useAllTasks();
@@ -104,7 +26,7 @@ const TasksPage: React.FC = () => {
 
   return (
     <Container>
-      <Stack direction='row' spacing={2} mb={2}>
+      <Stack direction='row' spacing={2} ml={5} mb={2}>
         <Typography variant='h5'>Задачи</Typography>
         <AddTaskButton />
       </Stack>

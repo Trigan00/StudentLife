@@ -1,5 +1,5 @@
 import { Comment } from '@/types/comments.types';
-import { COLORS } from '@/utils/GeneralConsts';
+import { COLORS, dayCalendarConfig } from '@/utils/GeneralConsts';
 import { Box, Avatar, Typography, Card, IconButton } from '@mui/material';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import calendar from 'dayjs/plugin/calendar';
@@ -34,12 +34,7 @@ export const CommentCard: React.FC<{
           >
             <Typography fontWeight='600'>{data.username}</Typography>
             <Typography variant='caption' color={COLORS.textGrey}>
-              {dayjs(data.createdAt).calendar(null, {
-                sameDay: '[Сегодня] HH:mm',
-                lastDay: '[Вчера] HH:mm',
-                lastWeek: 'dddd HH:mm',
-                sameElse: 'DD/MM/YYYY',
-              })}
+              {dayjs(data.createdAt).calendar(null, dayCalendarConfig)}
             </Typography>
           </Box>
           <IconButton size='small' onClick={() => onDelete(data.id)}>

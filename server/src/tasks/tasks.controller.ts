@@ -9,6 +9,7 @@ import {
   Delete,
   UsePipes,
   ValidationPipe,
+  Query,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -27,6 +28,19 @@ export class TasksController {
   @Get()
   findAll(@Request() req) {
     return this.tasksService.findAll(+req.user.id);
+  }
+
+  @Get('by_subject')
+  findBySubject(
+    @Request() req,
+    @Query('classId') classId: number,
+    @Query('deadline') deadline: string,
+  ) {
+    return this.tasksService.findBySubject(
+      +req.user.id,
+      Number(classId),
+      deadline,
+    );
   }
 
   @Get(':id')

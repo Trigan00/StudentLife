@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Class } from 'src/classes/classes.model';
 import * as dayjs from 'dayjs';
+import sortByTime from 'src/helpers/sortByTime';
 
 @Injectable()
 export class ScheduleService {
@@ -27,16 +28,8 @@ export class ScheduleService {
             });
         });
       });
-      const referenceTime = dayjs().format('YYYY-MM-DD HH:mm'); // Например, текущее время
+      const sortedData = sortByTime(classesPerDay);
 
-      const sortedData = [...classesPerDay].sort((a, b) => {
-        const timeA = dayjs(a.time, 'YYYY-MM-DD HH:mm');
-        const timeB = dayjs(b.time, 'YYYY-MM-DD HH:mm');
-        const refTime = dayjs(referenceTime, 'YYYY-MM-DD HH:mm');
-
-        // Сортируем по разнице с referenceTime
-        return Math.abs(timeB.diff(refTime)) - Math.abs(timeA.diff(refTime));
-      });
       schedule.push(sortedData);
       classesPerDay = [];
     });

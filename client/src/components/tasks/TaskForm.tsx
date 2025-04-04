@@ -10,7 +10,7 @@ import {
   FormControl,
   OutlinedInput,
 } from '@mui/material';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { Loader } from '../UI/Loader/Loader';
 import MyModal from '../UI/MyModal';
 
@@ -26,6 +26,7 @@ import {
 import MyDateAndTime from '../UI/MyDateAndTime';
 import { useAllClasses } from '@/hooks/useClasses';
 import { Comments } from './Comments';
+import { useSearchParams } from 'react-router-dom';
 
 interface TaskFormI {
   isModal: boolean;
@@ -35,6 +36,16 @@ interface TaskFormI {
 }
 
 export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
+  const [searchParams] = useSearchParams();
+  const defaultDate = searchParams.get('date');
+  const defaultClassId = searchParams.get('classId');
+  const normalizedDate = useMemo(() => {
+    return typeof defaultDate === 'string' ? defaultDate : undefined;
+  }, [defaultDate]);
+  const normalizedClassId = useMemo(() => {
+    return typeof defaultClassId === 'string' ? defaultClassId : undefined;
+  }, [defaultClassId]);
+
   const { data, isLoading } = useOneTask(id);
   const { data: classes, isLoading: isClassLoading } = useAllClasses();
   const { addTask, isPending } = useAddTask(() => {
@@ -49,10 +60,14 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
   const [title, setTitle] = useState('');
   const [errMsg, setErrMsg] = useState('');
   const [description, setDescription] = useState('');
-  const [classId, setClassId] = useState('');
+  const [classId, setClassId] = useState(
+    normalizedClassId ? normalizedClassId : '',
+  );
   const [classIdError, setClassIdError] = useState('');
   const [priority, setPriority] = useState('');
-  const [deadLine, setDeadLine] = useState<Dayjs | null>(null);
+  const [deadLine, setDeadLine] = useState<Dayjs | null>(
+    normalizedDate ? dayjs(normalizedDate) : null,
+  );
 
   const [deleteModal, setDeleteModal] = useState(false);
 
@@ -85,10 +100,11 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
       setClassIdError('');
       setTitle('');
       setDescription('');
-      setClassId('');
       setPriority('');
-      setDeadLine(null);
     }
+    if (!normalizedDate) setDeadLine(null);
+    if (!normalizedClassId) setClassId('');
+
     setTaskId && setTaskId(undefined);
   }
 

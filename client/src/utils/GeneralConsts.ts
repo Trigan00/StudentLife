@@ -16,3 +16,12 @@ export enum DIMENSIONS {
   LG = 'lg',
   XL = 'xl',
 }
+
+export const dayCalendarConfig = {
+  sameDay: '[сегодня] HH:mm',
+  nextDay: '[завтра] HH:mm',
+  nextWeek: 'dddd HH:mm',
+  lastDay: '[вчера] HH:mm',
+  lastWeek: '[Прошлый] dddd',
+  sameElse: 'DD/MM/YYYY',
+};
