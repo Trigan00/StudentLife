@@ -27,6 +27,7 @@ import MyDateAndTime from '../UI/MyDateAndTime';
 import { useAllClasses } from '@/hooks/useClasses';
 import { Comments } from './Comments';
 import { useSearchParams } from 'react-router-dom';
+import { PRIORITY_OPTIONS } from '@/utils/GeneralConsts';
 
 interface TaskFormI {
   isModal: boolean;
@@ -182,9 +183,9 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
                   onChange={(e) => setPriority(e.target.value)}
                   input={<OutlinedInput label='Приоритет' />}
                 >
-                  <MenuItem value={3}>Высокий</MenuItem>
-                  <MenuItem value={2}>Средний</MenuItem>
-                  <MenuItem value={1}>Низкий</MenuItem>
+                  <MenuItem value={3}>{PRIORITY_OPTIONS['3']}</MenuItem>
+                  <MenuItem value={2}>{PRIORITY_OPTIONS['2']}</MenuItem>
+                  <MenuItem value={1}>{PRIORITY_OPTIONS['1']}</MenuItem>
                 </Select>
               </FormControl>
             </Stack>

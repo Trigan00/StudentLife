@@ -25,3 +25,9 @@ export const dayCalendarConfig = {
   lastWeek: '[Прошлый] dddd',
   sameElse: 'DD/MM/YYYY',
 };
+
+export const PRIORITY_OPTIONS = {
+  '1': 'Низкий',
+  '2': 'Средний',
+  '3': 'Высокий',
+};
