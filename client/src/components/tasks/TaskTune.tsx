@@ -9,7 +9,7 @@ import {
   Typography,
   Box,
   IconButton,
-  Divider,
+  // Divider,
   Tooltip,
   OutlinedInput,
 } from '@mui/material';
@@ -34,9 +34,9 @@ export default function TaskTune({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const [sorting, setSorting] = useState('');
-  const [deadline, setDeadline] = useState('');
-  const [priority, setPriority] = useState('');
+  // const [sorting, setSorting] = useState('');
+  // const [deadline, setDeadline] = useState('');
+  // const [priority, setPriority] = useState('');
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);

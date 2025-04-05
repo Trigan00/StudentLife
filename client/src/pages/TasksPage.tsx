@@ -91,7 +91,6 @@ export function groupTasks(tasks: Task[], key: groupType): GroupedTasks {
 
 const TasksPage: React.FC = () => {
   const { data, isLoading } = useAllTasks();
-  let allTasks = data;
 
   const { updateTask } = useUpdateTask();
   const [isTaskForm, setIsTaskForm] = useState(false);
@@ -104,10 +103,10 @@ const TasksPage: React.FC = () => {
     updateTask({ ...task, completed: !task.completed });
   };
 
-  const completedTasks = allTasks?.filter((task) => task.completed === true);
-  const notCompletedTasks = allTasks?.filter(
-    (task) => task.completed === false,
-  );
+  // const completedTasks = allTasks?.filter((task) => task.completed === true);
+  // const notCompletedTasks = allTasks?.filter(
+  //   (task) => task.completed === false,
+  // );
 
   const grouped = groupTasks(data || [], grouping);
   const groupKeys = Object.keys(grouped);
