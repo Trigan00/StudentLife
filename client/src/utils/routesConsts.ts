@@ -8,4 +8,5 @@ export const routes = {
   EXAMS_ROUTE: '/exams',
   SCHEDULE_ROUTE: '/schedule',
   CLASS_TASKS_ROUTE: '/class_tasks',
+  CALENDAR_ROUTE: '/calendar',
 };

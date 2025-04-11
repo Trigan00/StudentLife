@@ -21,6 +21,7 @@ import ClassIcon from '@mui/icons-material/Class';
 import SchoolIcon from '@mui/icons-material/School';
 import TimerIcon from '@mui/icons-material/Timer';
 import EventNoteIcon from '@mui/icons-material/EventNote';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 interface ISideBar {
   open: boolean;
@@ -120,6 +121,19 @@ export default function SideBar({ open, toggleDrawer }: ISideBar) {
           </ListItemIcon>
           <ListItemText
             primary={<Typography fontSize='1.1rem'>Расписание</Typography>}
+          />
+        </ListItemButton>
+        <ListItemButton
+          onClick={onClickHandler}
+          component={Link}
+          to={routes.CALENDAR_ROUTE}
+          selected={isActive(routes.CALENDAR_ROUTE)}
+        >
+          <ListItemIcon>
+            <CalendarMonthIcon />
+          </ListItemIcon>
+          <ListItemText
+            primary={<Typography fontSize='1.1rem'>Календарь</Typography>}
           />
         </ListItemButton>
         {/* <Divider />  */}

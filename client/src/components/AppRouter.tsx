@@ -21,6 +21,7 @@ import ExamsPage from '@/pages/ExamsPage';
 import NotFoundPage from '@/pages/NotFoundPage';
 import SchedulePage from '@/pages/SchedulePage';
 import ClassTasksPage from '@/pages/ClassTasksPage';
+import CalendarPage from '@/pages/CalendarPage';
 
 const AppRouter = () => {
   const { auth, isLoading } = useAuth();
@@ -53,6 +54,7 @@ const AppRouter = () => {
             <Route path={routes.CLASSES_ROUTE} element={<ClassesPage />} />
             <Route path={routes.EXAMS_ROUTE} element={<ExamsPage />} />
             <Route path={routes.SCHEDULE_ROUTE} element={<SchedulePage />} />
+            <Route path={routes.CALENDAR_ROUTE} element={<CalendarPage />} />
             <Route
               path={routes.CLASS_TASKS_ROUTE}
               element={<ClassTasksPage />}
