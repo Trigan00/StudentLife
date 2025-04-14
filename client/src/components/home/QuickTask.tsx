@@ -41,6 +41,8 @@ const QuickTask = () => {
       classId: Number(classId),
       priority: null,
       deadLine: deadLine?.format() || null,
+      className: classes?.find((classEl) => classEl.id === Number(classId))
+        ?.name as string,
     };
     addTask(data);
   };

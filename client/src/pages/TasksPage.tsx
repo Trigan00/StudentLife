@@ -31,6 +31,9 @@ export function groupTasks(tasks: Task[], key: groupType): GroupedTasks {
       case 'createdAt':
         groupKey = dayjs(task.createdAt).format('YYYY-MM-DD');
         break;
+      case 'className':
+        groupKey = task.className;
+        break;
       case 'no':
         groupKey = 'Все задачи';
         break;

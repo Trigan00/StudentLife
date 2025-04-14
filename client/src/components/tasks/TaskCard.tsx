@@ -53,7 +53,7 @@ const TaskCard: React.FC<TaskCardI> = ({
         </Typography>
         {!taskInfo.completed && (
           <Typography variant='subtitle2' color='textSecondary'>
-            {shortenText(taskInfo.description, 150)}
+            {shortenText(taskInfo.className, 150)}
           </Typography>
         )}
         {taskInfo.deadLine && (

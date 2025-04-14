@@ -91,6 +91,8 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
       classId: Number(classId),
       priority: priority ? Number(priority) : null,
       deadLine: deadLine?.format() || null,
+      className: classes?.find((classEl) => classEl.id === Number(classId))
+        ?.name as string,
     };
     !!id ? updateTask({ id, ...data }) : addTask(data);
   };

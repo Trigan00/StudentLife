@@ -15,6 +15,7 @@ interface TasksCreationAttrs {
   title: string;
   userId: number;
   classId: number;
+  className: string;
 }
 
 @Table({ tableName: 'tasks', timestamps: true })
@@ -38,6 +39,9 @@ export class Task extends Model<Task, TasksCreationAttrs> {
 
   @Column({ type: DataType.STRING, allowNull: true })
   deadLine: string;
+
+  @Column({ type: DataType.STRING, allowNull: false })
+  className: string;
 
   @Column({ type: DataType.BOOLEAN, defaultValue: false, allowNull: false })
   completed: boolean;

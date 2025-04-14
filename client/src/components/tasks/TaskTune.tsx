@@ -16,7 +16,12 @@ import {
 import TuneIcon from '@mui/icons-material/Tune';
 
 export type sortType = 'priority' | 'createdAt';
-export type groupType = 'no' | 'deadline' | 'priority' | 'createdAt';
+export type groupType =
+  | 'no'
+  | 'deadline'
+  | 'priority'
+  | 'createdAt'
+  | 'className';
 
 interface TaskTuneI {
   showCompleted: boolean;
@@ -96,6 +101,7 @@ export default function TaskTune({
               <MenuItem value='createdAt'>Дата добавления</MenuItem>
               <MenuItem value='deadline'>Дедлайн</MenuItem>
               <MenuItem value='priority'>Приоритет</MenuItem>
+              <MenuItem value='className'>Предмет</MenuItem>
             </Select>
           </FormControl>
 

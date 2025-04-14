@@ -8,6 +8,8 @@ export class CreateTaskDto {
   readonly priority: number;
   readonly deadLine: string;
 
+  readonly className: string;
+
   @IsNotEmpty({ message: 'не должно быть пустым' })
   readonly classId: number;
 }
