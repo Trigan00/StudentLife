@@ -1,4 +1,4 @@
-import { COLORS } from '@/utils/GeneralConsts';
+// import { COLORS } from '@/utils/GeneralConsts';
 import { styled } from '@mui/material';
 
 export const BpIcon = styled('span')<{ color?: string }>(

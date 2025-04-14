@@ -1,5 +1,4 @@
 // components/Calendar.tsx
-import { useState } from 'react';
 import {
   Calendar as BigCalendar,
   Views,
@@ -22,6 +21,12 @@ import {
 import { COLORS } from '@/utils/GeneralConsts';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { useAllTasks } from '@/hooks/useTasks';
+import { Loader } from '@/components/UI/Loader/Loader';
+import { Task } from '@/types/tasks.types';
+import { TaskForm } from '@/components/tasks/TaskForm';
+import { useState } from 'react';
+import { makeColor } from '@/helpers/makeColorByPriority';
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
@@ -29,41 +34,41 @@ dayjs.extend(localeData);
 
 export const localizer = dayjsLocalizer(dayjs);
 
-type CalendarEvent = {
-  id: number;
-  title: string;
+interface CalendarEvent extends Omit<Task, 'deadLine'> {
+  deadLine: dayjs.Dayjs;
   start: Date;
   end: Date;
-  allDay?: boolean;
-  resource?: any;
-};
+}
 
-const initialEvents: CalendarEvent[] = [
-  {
-    id: 1,
-    title: 'Собрание команды',
-    start: new Date(2025, 3, 12, 10, 0),
-    end: new Date(2025, 3, 12, 10, 0),
-  },
-  {
-    id: 2,
-    title: 'Обед с инвестором',
-    start: new Date(2025, 3, 13, 13, 0),
-    end: new Date(2025, 3, 13, 13, 0),
-  },
-  {
-    id: 3,
-    title: 'Дедлайн проекта',
-    start: new Date(2025, 3, 15, 0, 0),
-    end: new Date(2025, 3, 15, 0, 0),
-    allDay: true,
-  },
-];
+// const initialEvents: CalendarEvent[] = [
+//   {
+//     id: 1,
+//     title: 'Собрание команды',
+//     start: new Date(2025, 3, 12, 10, 0),
+//     end: new Date(2025, 3, 12, 10, 0),
+//   },
+//   {
+//     id: 2,
+//     title: 'Обед с инвестором',
+//     start: new Date(2025, 3, 13, 13, 0),
+//     end: new Date(2025, 3, 13, 13, 0),
+//   },
+//   {
+//     id: 3,
+//     title: 'Дедлайн проекта',
+//     start: new Date(2025, 3, 15, 0, 0),
+//     end: new Date(2025, 3, 15, 0, 0),
+//     allDay: true,
+//   },
+// ];
 
 // Функция для изменения стилей событий
 const eventStyleGetter = (event: CalendarEvent) => {
+  //TODO цвет от приоритета
   const style = {
-    backgroundColor: COLORS.primary,
+    backgroundColor: 'white',
+    border: '2px solid ' + makeColor(event.priority),
+    color: 'black',
   };
   return {
     style,
@@ -72,7 +77,7 @@ const eventStyleGetter = (event: CalendarEvent) => {
 
 // Кастомизация панели инструментов
 const CustomToolbar = (toolbarProps: ToolbarProps<CalendarEvent, any>) => {
-  const { onView, onNavigate, views, view, label } = toolbarProps;
+  const { onView, onNavigate, view, label } = toolbarProps;
 
   return (
     <Box
@@ -127,54 +132,71 @@ const CustomToolbar = (toolbarProps: ToolbarProps<CalendarEvent, any>) => {
 };
 
 const Calendar = () => {
-  const [events, setEvents] = useState<CalendarEvent[]>(initialEvents);
+  const { data, isLoading } = useAllTasks();
+  const [isTaskForm, setIsTaskForm] = useState(false);
+  const [taskId, setTaskId] = useState<number | undefined>();
 
   const handleSelectEvent = (event: CalendarEvent) => {
-    console.log('📌 Выбранное событие:', event);
+    setTaskId(event.id);
+    setIsTaskForm(true);
   };
 
   const handleSelectSlot = (slotInfo: SlotInfo) => {
-    const newEvent: CalendarEvent = {
-      id: events.length + 1,
-      title: 'Новое событие',
-      start: slotInfo.start,
-      end: slotInfo.start,
-      allDay: false,
-    };
+    // const newEvent: CalendarEvent = {
+    //   id: events.length + 1,
+    //   title: 'Новое событие',
+    //   deadLine: slotInfo.start,
+    //   end: slotInfo.start,
+    //   allDay: false,
+    // };
 
-    console.log('📅 Новое событие:', newEvent);
-    setEvents([...events, newEvent]);
+    console.log('📅 Новое событие:', slotInfo);
+    // setEvents([...events, newEvent]);
   };
+
+  if (isLoading) return <Loader />;
 
   return (
     <Box sx={{ height: '80vh' }}>
-      <BigCalendar
-        culture='ru'
-        messages={{
-          //   week: 'Неделя',
-          //   work_week: 'Рабочая неделя',
-          //   day: 'День',
-          //   month: 'Месяц',
-          //   previous: 'Назад',
-          //   next: 'Вперед',
-          //   today: 'Сегодня',
-          //   agenda: 'Agenda',
-          showMore: (total) => `+${total} больше`,
-        }}
-        localizer={localizer}
-        events={events}
-        startAccessor='start'
-        endAccessor='end'
-        selectable={true}
-        onSelectEvent={handleSelectEvent}
-        onSelectSlot={handleSelectSlot}
-        defaultView={Views.MONTH}
-        views={['month', 'week', 'day']}
-        style={{ height: '100%' }}
-        eventPropGetter={eventStyleGetter}
-        components={{
-          toolbar: CustomToolbar,
-        }}
+      {data && (
+        <BigCalendar
+          culture='ru'
+          messages={{
+            showMore: (total) => `+ еще ${total}`,
+          }}
+          localizer={localizer}
+          events={data.reduce<CalendarEvent[]>((acc, task) => {
+            if (!task.completed && task.deadLine !== null) {
+              const date = dayjs(task.deadLine).toDate(); // <-- преобразуем в Date
+
+              acc.push({
+                ...task,
+                deadLine: dayjs(task.deadLine), // можешь оставить для других целей
+                start: date,
+                end: date,
+              });
+            }
+            return acc;
+          }, [])}
+          startAccessor='start'
+          endAccessor='end'
+          selectable={true}
+          onSelectEvent={handleSelectEvent}
+          onSelectSlot={handleSelectSlot}
+          defaultView={Views.MONTH}
+          views={['month', 'week', 'day']}
+          style={{ height: '100%' }}
+          eventPropGetter={eventStyleGetter}
+          components={{
+            toolbar: CustomToolbar,
+          }}
+        />
+      )}
+      <TaskForm
+        isModal={isTaskForm}
+        setIsModal={setIsTaskForm}
+        id={taskId}
+        setTaskId={setTaskId}
       />
     </Box>
   );

@@ -6,26 +6,7 @@ import { BpCheckedIcon, BpIcon } from '../UI/MyChexbox';
 import TodayIcon from '@mui/icons-material/Today';
 import dayjs from 'dayjs';
 import { getDeadlineColor } from '@/helpers/getDeadlineColor';
-
-const makeColor = (index: number | null) => {
-  let color = '';
-  switch (index) {
-    case 1:
-      color = 'green';
-      break;
-    case 2:
-      color = 'orange';
-      break;
-    case 3:
-      color = 'red';
-      break;
-
-    default:
-      color = 'grey';
-      break;
-  }
-  return color;
-};
+import { makeColor } from '@/helpers/makeColorByPriority';
 
 interface TaskCardI {
   setIsTaskForm: React.Dispatch<React.SetStateAction<boolean>>;
