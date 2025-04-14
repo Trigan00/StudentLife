@@ -21,7 +21,7 @@ const TaskCard: React.FC<TaskCardI> = ({
   setTaskId,
 }) => {
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box my={1} sx={{ display: 'flex' }}>
       <Checkbox
         checked={taskInfo.completed}
         onClick={() => onDoneHandler(taskInfo)}

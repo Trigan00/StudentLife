@@ -18,7 +18,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import TaskIcon from '@mui/icons-material/Task';
 import ClassIcon from '@mui/icons-material/Class';
-import SchoolIcon from '@mui/icons-material/School';
+// import SchoolIcon from '@mui/icons-material/School';
 import TimerIcon from '@mui/icons-material/Timer';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -94,7 +94,7 @@ export default function SideBar({ open, toggleDrawer }: ISideBar) {
                 primary={<Typography fontSize='1.1rem'>Предметы</Typography>}
               />
             </ListItemButton>
-            <ListItemButton
+            {/* <ListItemButton
               onClick={onClickHandler}
               sx={{ pl: 4 }}
               component={Link}
@@ -107,7 +107,7 @@ export default function SideBar({ open, toggleDrawer }: ISideBar) {
               <ListItemText
                 primary={<Typography fontSize='1.1rem'>Экзамены</Typography>}
               />
-            </ListItemButton>
+            </ListItemButton> */}
           </List>
         </Collapse>
         <ListItemButton

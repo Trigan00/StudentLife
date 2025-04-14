@@ -1,5 +1,14 @@
+import QuickTask from '@/components/home/QuickTask';
+import TodayTasks from '@/components/home/TodayTasks';
+import { Box } from '@mui/material';
+
 const HomePage = () => {
-  return <h1>Добро пожаловать в ToDo-приложение!</h1>;
+  return (
+    <Box>
+      <QuickTask />
+      <TodayTasks />
+    </Box>
+  );
 };
 
 export default HomePage;

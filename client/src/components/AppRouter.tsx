@@ -16,7 +16,6 @@ import { Box, Typography } from '@mui/material';
 import { SITE_NAME } from '@/utils/GeneralConsts';
 import TasksPage from '@/pages/TasksPage';
 import ClassesPage from '@/pages/ClassesPage';
-import ExamsPage from '@/pages/ExamsPage';
 // import TaskPage from '@/pages/TaskPage';
 import NotFoundPage from '@/pages/NotFoundPage';
 import SchedulePage from '@/pages/SchedulePage';
@@ -52,7 +51,6 @@ const AppRouter = () => {
             <Route path={routes.TASKS_ROUTE} element={<TasksPage />} />
             {/* <Route path={routes.TASKS_ROUTE + '/:id'} element={<TaskPage />} /> */}
             <Route path={routes.CLASSES_ROUTE} element={<ClassesPage />} />
-            <Route path={routes.EXAMS_ROUTE} element={<ExamsPage />} />
             <Route path={routes.SCHEDULE_ROUTE} element={<SchedulePage />} />
             <Route path={routes.CALENDAR_ROUTE} element={<CalendarPage />} />
             <Route
