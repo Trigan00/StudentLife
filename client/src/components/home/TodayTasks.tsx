@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Loader } from '../UI/Loader/Loader';
 import TaskCard from '../tasks/TaskCard';
 import { TaskForm } from '../tasks/TaskForm';
-import { Container, Typography } from '@mui/material';
+import { Box, Container, Paper, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
 const filterTodayTasks = (tasks: Task[] | undefined) => {
@@ -35,7 +35,11 @@ const TodayTasks = () => {
     return <Loader />;
   }
   return (
-    <Container>
+    <Paper
+      variant='elevation'
+      elevation={2}
+      sx={{ py: 1, px: 3, borderRadius: 5, width: '50%' }}
+    >
       <Typography fontWeight='bold' my={2}>
         Задачи на сегодня
       </Typography>
@@ -57,7 +61,7 @@ const TodayTasks = () => {
         id={taskId}
         setTaskId={setTaskId}
       />
-    </Container>
+    </Paper>
   );
 };
 

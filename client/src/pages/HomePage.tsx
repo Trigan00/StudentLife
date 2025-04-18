@@ -1,13 +1,13 @@
 import QuickTask from '@/components/home/QuickTask';
 import TodayTasks from '@/components/home/TodayTasks';
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 
 const HomePage = () => {
   return (
-    <Box>
+    <Stack spacing={3}>
       <QuickTask />
       <TodayTasks />
-    </Box>
+    </Stack>
   );
 };
 

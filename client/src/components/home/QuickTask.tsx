@@ -56,7 +56,11 @@ const QuickTask = () => {
   }
 
   return (
-    <Paper variant='outlined' sx={{ p: 3, borderRadius: 5 }}>
+    <Paper
+      variant='elevation'
+      elevation={2}
+      sx={{ p: 3, borderRadius: 5, width: '50%' }}
+    >
       <Stack direction='row' spacing={1}>
         <TextField
           value={title}
