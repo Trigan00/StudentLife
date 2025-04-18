@@ -79,7 +79,7 @@ const ClassTasksPage: React.FC = () => {
                 />
               ))
             ) : (
-              <Typography variant='body2'>{`Задач на ${dayjs(date).format(
+              <Typography>{`Задач на ${dayjs(date).format(
                 'MMMM DD, YYYY',
               )} нет`}</Typography>
             )}
