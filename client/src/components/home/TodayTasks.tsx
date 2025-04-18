@@ -48,6 +48,9 @@ const TodayTasks = () => {
           taskInfo={taskInfo}
         />
       ))}
+      {filterTodayTasks(data)?.length === 0 && (
+        <Typography>Задач на сегодня нет</Typography>
+      )}
       <TaskForm
         isModal={isTaskForm}
         setIsModal={setIsTaskForm}
