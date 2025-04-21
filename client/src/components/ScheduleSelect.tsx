@@ -76,7 +76,7 @@ export default function ScheduleSelect({
       for (const element of schedule) {
         if (
           element.day === day &&
-          element.startTime === time.format() &&
+          element.startTime === time.format('HH:mm') &&
           element.evenness === evenness
         )
           return;
@@ -84,7 +84,7 @@ export default function ScheduleSelect({
 
       setSchedule((prev) => [
         ...prev,
-        { day, startTime: time.format(), evenness },
+        { day, startTime: time.format('HH:mm'), evenness },
       ]);
       setDay('');
       setTime(null);
@@ -172,7 +172,7 @@ export default function ScheduleSelect({
             {(names.find((name) => name[0] === day.day) || [])[1]}
           </ScheduleCard>
           <ScheduleCard>{evennessTranslator(day.evenness)}</ScheduleCard>
-          <ScheduleCard>{dayjs(day.startTime).format('HH:mm')}</ScheduleCard>
+          <ScheduleCard>{day.startTime}</ScheduleCard>
           <IconButton size='small' onClick={() => deleteHandler(day)}>
             <DeleteIcon />
           </IconButton>

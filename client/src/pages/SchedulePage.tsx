@@ -75,7 +75,14 @@ const SchedulePage = () => {
                       routes.CLASS_TASKS_ROUTE +
                         `?classId=${classEl.id}&name=${encodeURIComponent(
                           classEl.name,
-                        )}&date=${encodeURIComponent(classEl.time)}`,
+                        )}&date=${encodeURIComponent(
+                          active
+                            .hour(Number(classEl.time.split(':')[0]))
+                            .minute(Number(classEl.time.split(':')[1]))
+                            .second(0)
+                            .millisecond(0)
+                            .format(),
+                        )}`, //день из актив, время из classEl.time
                     )
                   }
                 >
@@ -95,9 +102,7 @@ const SchedulePage = () => {
                     )}
                   </Box>
                   <Box>
-                    <Typography>
-                      {dayjs(classEl.time).format('HH:mm')}
-                    </Typography>
+                    <Typography>{classEl.time}</Typography>
                   </Box>
                 </Card>
               ) : null;
