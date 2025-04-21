@@ -3,7 +3,7 @@ import { CreateClassDto } from './dto/create-class.dto';
 import { UpdateClassDto } from './dto/update-class.dto';
 import { Class } from './classes.model';
 import { InjectModel } from '@nestjs/sequelize';
-import { Task } from 'src/tasks/tasks.model';
+import { Task } from 'src/tasks/entities/tasks.model';
 import { Comment } from 'src/comments/entities/comments.model';
 import { FileAttachment } from 'src/comments/entities/file-attachment.model.ts';
 import * as fs from 'fs';

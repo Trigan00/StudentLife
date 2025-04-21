@@ -8,7 +8,7 @@ import {
   DataType,
 } from 'sequelize-typescript';
 import { User } from 'src/users/users.model';
-import { Task } from 'src/tasks/tasks.model';
+import { Task } from 'src/tasks/entities/tasks.model';
 import { FileAttachment } from './file-attachment.model.ts';
 
 @Table({ tableName: 'comments', timestamps: true })

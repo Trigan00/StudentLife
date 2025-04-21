@@ -16,9 +16,11 @@ import { useState } from 'react';
 import MyDateAndTime from '../UI/MyDateAndTime';
 import AddIcon from '@mui/icons-material/Add';
 import { COLORS } from '@/utils/GeneralConsts';
-import { Description } from '@mui/icons-material';
+import { CreateTaskDto } from '@/types/tasks.types';
+import { useAuth } from '@/hooks/useAuth';
 
 const QuickTask = () => {
+  const { auth } = useAuth();
   const { addTask, isPending } = useAddTask(() => {
     onClose();
   });
@@ -35,7 +37,9 @@ const QuickTask = () => {
     setClassIdError('');
     if (!title.trim()) return setErrMsg('Не может быть пустым');
     if (!classId) return setClassIdError('Не может быть пустым');
-    const data = {
+    if (!auth) return;
+
+    const data: CreateTaskDto = {
       title,
       description: '',
       classId: Number(classId),
@@ -43,6 +47,7 @@ const QuickTask = () => {
       deadLine: deadLine?.format() || null,
       className: classes?.find((classEl) => classEl.id === Number(classId))
         ?.name as string,
+      userIds: [Number(auth.id)],
     };
     addTask(data);
   };

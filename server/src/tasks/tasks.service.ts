@@ -1,60 +1,97 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { Task } from './tasks.model';
+import { Task } from './entities/tasks.model';
 import { InjectModel } from '@nestjs/sequelize';
-import { FileAttachment } from 'src/comments/entities/file-attachment.model.ts';
-import * as fs from 'fs';
-import * as path from 'path';
 import { Comment } from 'src/comments/entities/comments.model';
 import { Op } from 'sequelize';
+import * as fs from 'fs';
+import * as path from 'path';
+import { User } from 'src/users/users.model';
+import { FileAttachment } from 'src/comments/entities/file-attachment.model.ts';
 
 @Injectable()
 export class TasksService {
-  constructor(@InjectModel(Task) private TaskRepo: typeof Task) {}
+  constructor(
+    @InjectModel(Task) private TaskRepo: typeof Task,
+    @InjectModel(User) private UserRepo: typeof User, // Теперь инжектим UserRepo
+  ) {}
 
-  async create(userId: number, createTaskDto: CreateTaskDto) {
-    const candidate = await this.TaskRepo.findOne({
-      where: {
-        title: createTaskDto.title,
-        userId,
-        classId: createTaskDto.classId,
-      },
-    });
-    if (candidate)
+  async create(createTaskDto: CreateTaskDto) {
+    const { userIds, ...taskData } = createTaskDto;
+
+    const users = await this.UserRepo.findAll({ where: { id: userIds } });
+    if (users.length !== userIds.length) {
       throw new HttpException(
-        'Такая задача уже существует',
+        'Один или несколько пользователей не найдены',
         HttpStatus.BAD_REQUEST,
       );
+    }
 
-    await this.TaskRepo.create({
-      ...createTaskDto,
-      userId,
+    const existingTask = await this.TaskRepo.findOne({
+      where: {
+        title: taskData.title,
+        classId: taskData.classId,
+      },
+      include: [
+        {
+          model: User,
+          where: { id: userIds },
+          required: false,
+        },
+      ],
     });
 
-    return { classId: createTaskDto.classId, message: 'Задача добавлена' };
+    if (existingTask) {
+      throw new HttpException(
+        'Такая задача уже существует для одного из пользователей',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const task = await this.TaskRepo.create(taskData);
+    await task.$set('users', users);
+
+    return { classId: task.classId, message: 'Задача добавлена' };
   }
 
   async findAll(userId: number) {
-    const tasksArr = await this.TaskRepo.findAll({
-      where: {
-        userId,
-      },
+    const tasks = await this.TaskRepo.findAll({
+      include: [
+        {
+          model: User,
+          where: { id: userId },
+          through: { attributes: [] },
+        },
+      ],
       order: [['createdAt', 'ASC']],
     });
-    return tasksArr;
+    return tasks;
   }
 
   async findBySubject(userId: number, classId: number, deadline: string) {
     const dayTasks = await this.TaskRepo.findAll({
-      where: { userId, classId, deadLine: deadline },
+      include: [
+        {
+          model: User,
+          where: { id: userId },
+          through: { attributes: [] },
+        },
+      ],
+      where: { classId, deadLine: deadline },
     });
 
     const dayTaskIds = dayTasks.map((task) => task.id);
 
     const classTasks = await this.TaskRepo.findAll({
+      include: [
+        {
+          model: User,
+          where: { id: userId },
+          through: { attributes: [] },
+        },
+      ],
       where: {
-        userId,
         classId,
         id: {
           [Op.notIn]: dayTaskIds,
@@ -62,27 +99,46 @@ export class TasksService {
       },
       order: [['createdAt', 'ASC']],
     });
+
     return { dayTasks, classTasks };
   }
 
   async findOne(id: number) {
-    const taskInfo = await this.TaskRepo.findOne({
+    const task = await this.TaskRepo.findOne({
       where: { id },
+      include: [User],
     });
-    return taskInfo;
+    return task;
   }
 
   async update(id: number, updateTaskDto: UpdateTaskDto) {
-    this.TaskRepo.update(updateTaskDto, { where: { id } });
-    const taskInfo = await this.TaskRepo.findOne({
-      where: { id },
-    });
+    const { userIds, ...updateData } = updateTaskDto;
 
-    return { id, classId: taskInfo.classId, message: 'Задача обновлена' };
+    const task = await this.TaskRepo.findByPk(id);
+    if (!task) {
+      throw new HttpException('Задача не найдена', HttpStatus.NOT_FOUND);
+    }
+
+    await task.update(updateData);
+
+    if (userIds) {
+      const users = await this.UserRepo.findAll({ where: { id: userIds } });
+      if (users.length !== userIds.length) {
+        throw new HttpException(
+          'Один или несколько пользователей не найдены',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      // Переустанавливаем связь
+      await task.$set('users', users);
+    }
+
+    return { id: task.id, classId: task.classId, message: 'Задача обновлена' };
   }
 
   async remove(id: number) {
-    const taskInfo = await this.TaskRepo.findOne({
+    const task = await this.TaskRepo.findOne({
       where: { id },
       include: [
         {
@@ -92,16 +148,19 @@ export class TasksService {
       ],
     });
 
-    if (taskInfo.comments.length) {
-      for (const comment of taskInfo.comments) {
-        if (comment.attachments.length) {
+    if (!task) {
+      throw new HttpException('Задача не найдена', HttpStatus.NOT_FOUND);
+    }
+
+    if (task.comments?.length) {
+      for (const comment of task.comments) {
+        if (comment.attachments?.length) {
           for (const attachment of comment.attachments) {
             const filePath = path.join(
               __dirname,
               '../../uploads',
               attachment.path,
             );
-
             if (fs.existsSync(filePath)) {
               fs.unlinkSync(filePath);
             }
@@ -111,10 +170,9 @@ export class TasksService {
     }
 
     await this.TaskRepo.destroy({
-      where: {
-        id,
-      },
+      where: { id },
     });
-    return { classId: taskInfo.classId, message: 'Задача удалена' };
+
+    return { classId: task.classId, message: 'Задача удалена' };
   }
 }

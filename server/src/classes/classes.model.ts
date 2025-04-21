@@ -7,7 +7,7 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { Task } from 'src/tasks/tasks.model';
+import { Task } from 'src/tasks/entities/tasks.model';
 import { User } from 'src/users/users.model';
 
 interface ClassesCreationAttrs {

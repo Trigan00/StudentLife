@@ -14,11 +14,12 @@ import { APP_GUARD } from '@nestjs/core';
 import { ClassesModule } from './classes/classes.module';
 import { Class } from './classes/classes.model';
 import { TasksModule } from './tasks/tasks.module';
-import { Task } from './tasks/tasks.model';
+import { Task } from './tasks/entities/tasks.model';
 import { CommentsModule } from './comments/comments.module';
 import { Comment } from './comments/entities/comments.model';
 import { FileAttachment } from './comments/entities/file-attachment.model.ts';
 import { ScheduleModule } from './schedule/schedule.module';
+import { UserTasks } from './tasks/entities/user-tasks.model';
 
 @Module({
   imports: [
@@ -37,7 +38,7 @@ import { ScheduleModule } from './schedule/schedule.module';
       define: {
         timestamps: false,
       },
-      models: [User, Token, Class, Task, Comment, FileAttachment],
+      models: [User, Token, Class, Task, Comment, FileAttachment, UserTasks],
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', '..', 'client', 'build'),

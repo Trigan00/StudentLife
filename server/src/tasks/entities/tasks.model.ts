@@ -1,5 +1,6 @@
 import {
   BelongsTo,
+  BelongsToMany,
   Column,
   DataType,
   ForeignKey,
@@ -10,10 +11,11 @@ import {
 import { Class } from 'src/classes/classes.model';
 import { Comment } from 'src/comments/entities/comments.model';
 import { User } from 'src/users/users.model';
+import { UserTasks } from './user-tasks.model';
 
 interface TasksCreationAttrs {
   title: string;
-  userId: number;
+  // userId: number;
   classId: number;
   className: string;
 }
@@ -46,12 +48,8 @@ export class Task extends Model<Task, TasksCreationAttrs> {
   @Column({ type: DataType.BOOLEAN, defaultValue: false, allowNull: false })
   completed: boolean;
 
-  @ForeignKey(() => User)
-  @Column({ type: DataType.INTEGER })
-  userId: number;
-
-  @BelongsTo(() => User)
-  user: User;
+  @BelongsToMany(() => User, () => UserTasks)
+  users: User[];
 
   @ForeignKey(() => Class)
   @Column({ type: DataType.INTEGER })

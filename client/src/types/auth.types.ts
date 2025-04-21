@@ -20,3 +20,9 @@ export interface IAuthResponse {
   token: string;
   message: string;
 }
+
+export interface IUser {
+  id: number;
+  email: string;
+  userName: string;
+}

@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsArray, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateTaskDto {
   @IsNotEmpty({ message: 'не должно быть пустым' })
@@ -12,4 +12,9 @@ export class CreateTaskDto {
 
   @IsNotEmpty({ message: 'не должно быть пустым' })
   readonly classId: number;
+
+  @IsNotEmpty({ each: true, message: 'не должно быть пустым' })
+  @IsArray()
+  @IsNumber({}, { each: true })
+  userIds: number[];
 }

@@ -22,7 +22,7 @@ export class TasksController {
   @UsePipes(ValidationPipe)
   @Post()
   create(@Request() req, @Body() createTaskDto: CreateTaskDto) {
-    return this.tasksService.create(+req.user.id, createTaskDto);
+    return this.tasksService.create(createTaskDto);
   }
 
   @Get()

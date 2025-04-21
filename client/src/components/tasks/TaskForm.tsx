@@ -28,6 +28,8 @@ import { useAllClasses } from '@/hooks/useClasses';
 import { Comments } from './Comments';
 import { useSearchParams } from 'react-router-dom';
 import { PRIORITY_OPTIONS } from '@/utils/GeneralConsts';
+import { useAuth } from '@/hooks/useAuth';
+import { CreateTaskDto } from '@/types/tasks.types';
 
 interface TaskFormI {
   isModal: boolean;
@@ -47,6 +49,7 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
     return typeof defaultClassId === 'string' ? defaultClassId : undefined;
   }, [defaultClassId]);
 
+  const { auth } = useAuth();
   const { data, isLoading } = useOneTask(id);
   const { data: classes, isLoading: isClassLoading } = useAllClasses();
   const { addTask, isPending } = useAddTask(() => {
@@ -85,7 +88,8 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
   const submit = () => {
     if (!title.trim()) return setErrMsg('Не может быть пустым');
     if (!classId) return setClassIdError('Не может быть пустым');
-    const data = {
+    if (!auth) return;
+    const data: CreateTaskDto = {
       title,
       description,
       classId: Number(classId),
@@ -93,6 +97,7 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
       deadLine: deadLine?.format() || null,
       className: classes?.find((classEl) => classEl.id === Number(classId))
         ?.name as string,
+      userIds: [Number(auth.id)],
     };
     !!id ? updateTask({ id, ...data }) : addTask(data);
   };

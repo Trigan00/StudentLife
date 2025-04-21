@@ -7,5 +7,5 @@ export function useAuth() {
     queryFn: () => authService.getNewTokens(),
   });
 
-  return { auth: data, isLoading };
+  return { auth: data?.data, isLoading };
 }

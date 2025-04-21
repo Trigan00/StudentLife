@@ -1,3 +1,5 @@
+import { IUser } from './auth.types';
+
 export interface Task {
   id: number;
   title: string;
@@ -9,15 +11,18 @@ export interface Task {
   createdAt: string;
   updatedAt: string;
   completed: boolean;
+  users: IUser[];
 }
 
-export type CreateTaskDto = Omit<
-  Omit<Omit<Omit<Partial<Task>, 'id'>, 'title'>, 'classId'>,
-  'className'
-> & {
+type CreateTaskBase = Partial<
+  Omit<Task, 'id' | 'title' | 'classId' | 'className' | 'users'>
+>;
+
+export interface CreateTaskDto extends CreateTaskBase {
   title: string;
   classId: number;
   className: string;
-};
+  userIds: number[];
+}
 
 export type UpdateTaskDto = Omit<Partial<Task>, 'id'> & { id: number };

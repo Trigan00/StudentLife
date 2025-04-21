@@ -1,4 +1,5 @@
 import {
+  BelongsToMany,
   Column,
   DataType,
   HasMany,
@@ -8,8 +9,8 @@ import {
 } from 'sequelize-typescript';
 import { Class } from 'src/classes/classes.model';
 import { Comment } from 'src/comments/entities/comments.model';
-import { Task } from 'src/tasks/tasks.model';
-// import { Password } from 'src/passwords/passwords.model';
+import { Task } from 'src/tasks/entities/tasks.model';
+import { UserTasks } from 'src/tasks/entities/user-tasks.model';
 import { Token } from 'src/token/token.model';
 
 interface UserCreationAttrs {
@@ -17,7 +18,6 @@ interface UserCreationAttrs {
   password: string;
   username: string;
   activationLink: string;
-  // secret2fa: string;
 }
 
 @Table({ tableName: 'users' })
@@ -45,19 +45,13 @@ export class User extends Model<User, UserCreationAttrs> {
   @Column({ type: DataType.STRING })
   activationLink: string;
 
-  // @Column({ type: DataType.STRING })
-  // secret2fa: string;
-
-  // @HasMany(() => Password)
-  // passwords: Password[];
-
   @HasOne(() => Token)
   token: Token;
 
   @HasMany(() => Class)
   classes: Class[];
 
-  @HasMany(() => Task)
+  @BelongsToMany(() => Task, () => UserTasks)
   tasks: Task[];
 
   @HasMany(() => Comment)
