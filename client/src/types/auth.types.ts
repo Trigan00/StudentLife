@@ -24,5 +24,5 @@ export interface IAuthResponse {
 export interface IUser {
   id: number;
   email: string;
-  userName: string;
+  username: string;
 }

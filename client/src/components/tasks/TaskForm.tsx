@@ -30,6 +30,8 @@ import { useSearchParams } from 'react-router-dom';
 import { PRIORITY_OPTIONS } from '@/utils/GeneralConsts';
 import { useAuth } from '@/hooks/useAuth';
 import { CreateTaskDto } from '@/types/tasks.types';
+import { UserSearch } from './UserSearch';
+import { IUser } from '@/types/auth.types';
 
 interface TaskFormI {
   isModal: boolean;
@@ -72,6 +74,7 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
   const [deadLine, setDeadLine] = useState<Dayjs | null>(
     normalizedDate ? dayjs(normalizedDate) : null,
   );
+  const [selectedUsers, setSelectedUsers] = useState<IUser[]>([]);
 
   const [deleteModal, setDeleteModal] = useState(false);
 
@@ -82,6 +85,7 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
       setClassId(String(data.classId));
       setPriority(data.priority ? String(data.priority) : '');
       setDeadLine(data.deadLine ? dayjs(data.deadLine) : null);
+      setSelectedUsers(data.users);
     }
   }, [data]);
 
@@ -97,7 +101,9 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
       deadLine: deadLine?.format() || null,
       className: classes?.find((classEl) => classEl.id === Number(classId))
         ?.name as string,
-      userIds: [Number(auth.id)],
+      userIds: !!id
+        ? selectedUsers.map((u) => u.id)
+        : [...selectedUsers.map((u) => u.id), Number(auth.id)],
     };
     !!id ? updateTask({ id, ...data }) : addTask(data);
   };
@@ -162,6 +168,11 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
               variant='outlined'
               type='text'
               fullWidth
+            />
+
+            <UserSearch
+              selectedUsers={selectedUsers}
+              setSelectedUsers={setSelectedUsers}
             />
 
             <Stack direction='row' spacing={2}>

@@ -62,6 +62,7 @@ export class TasksService {
           model: User,
           where: { id: userId },
           through: { attributes: [] },
+          attributes: ['id', 'username', 'email'],
         },
       ],
       order: [['createdAt', 'ASC']],
@@ -76,6 +77,7 @@ export class TasksService {
           model: User,
           where: { id: userId },
           through: { attributes: [] },
+          attributes: ['id', 'username', 'email'],
         },
       ],
       where: { classId, deadLine: deadline },
@@ -89,6 +91,7 @@ export class TasksService {
           model: User,
           where: { id: userId },
           through: { attributes: [] },
+          attributes: ['id', 'username', 'email'],
         },
       ],
       where: {
@@ -106,12 +109,16 @@ export class TasksService {
   async findOne(id: number) {
     const task = await this.TaskRepo.findOne({
       where: { id },
-      include: [User],
+      include: [{ model: User, attributes: ['id', 'username', 'email'] }],
     });
     return task;
   }
 
-  async update(id: number, updateTaskDto: UpdateTaskDto) {
+  async update(
+    id: number,
+    updateTaskDto: UpdateTaskDto,
+    currentUserId: number,
+  ) {
     const { userIds, ...updateData } = updateTaskDto;
 
     const task = await this.TaskRepo.findByPk(id);
@@ -120,8 +127,13 @@ export class TasksService {
     }
 
     await task.update(updateData);
-
     if (userIds) {
+      if (!userIds.includes(currentUserId)) {
+        throw new HttpException(
+          'Нельзя удалить самого себя из задачи',
+          HttpStatus.FORBIDDEN,
+        );
+      }
       const users = await this.UserRepo.findAll({ where: { id: userIds } });
       if (users.length !== userIds.length) {
         throw new HttpException(

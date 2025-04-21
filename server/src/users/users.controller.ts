@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Request } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Public } from 'src/decorators/publicRoutes-decorator';
+import { SearchUserDto } from './dto/search-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -10,6 +11,15 @@ export class UsersController {
   @Get()
   getAll() {
     return this.usersService.getAllUsers();
+  }
+
+  @Get('search')
+  async search(@Request() req, @Query() searchUserDto: SearchUserDto) {
+    const users = await this.usersService.searchUsers(
+      searchUserDto.query,
+      +req.user.id,
+    );
+    return users;
   }
 
   @Public()

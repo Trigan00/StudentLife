@@ -50,8 +50,12 @@ export class TasksController {
 
   @UsePipes(ValidationPipe)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.tasksService.update(+id, updateTaskDto);
+  update(
+    @Request() req,
+    @Param('id') id: string,
+    @Body() updateTaskDto: UpdateTaskDto,
+  ) {
+    return this.tasksService.update(+id, updateTaskDto, +req.user.id);
   }
 
   @Delete(':id')
