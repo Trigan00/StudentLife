@@ -176,23 +176,26 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
             />
 
             <Stack direction='row' spacing={2}>
-              <FormControl size='small' sx={{ width: '50%' }}>
-                <InputLabel id='classes-label'>Предмет</InputLabel>
-                <Select
-                  value={classId}
-                  labelId='classes-label'
-                  onChange={(e) => setClassId(e.target.value)}
-                  input={
-                    <OutlinedInput label='Предмет' error={!!classIdError} />
-                  }
-                >
-                  {classes?.map(({ id, name }) => (
-                    <MenuItem key={id} value={id}>
-                      {name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              {classes?.find((el) => el.id === Number(classId)) && (
+                <FormControl size='small' sx={{ width: '50%' }}>
+                  <InputLabel id='classes-label'>Предмет</InputLabel>
+                  <Select
+                    value={classId}
+                    labelId='classes-label'
+                    onChange={(e) => setClassId(e.target.value)}
+                    input={
+                      <OutlinedInput label='Предмет' error={!!classIdError} />
+                    }
+                  >
+                    {classes?.map(({ id, name }) => (
+                      <MenuItem key={id} value={id}>
+                        {name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              )}
+
               <FormControl size='small' sx={{ width: '50%' }}>
                 <InputLabel id='priority-label'>Приоритет</InputLabel>
                 <Select
