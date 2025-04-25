@@ -20,4 +20,11 @@ export const usersService = {
     }>('/users/profile');
     return response.data;
   },
+
+  async update(data: { username: string }) {
+    const response = await axiosWithAuth.patch<{
+      message: string;
+    }>('/users', data);
+    return response;
+  },
 };

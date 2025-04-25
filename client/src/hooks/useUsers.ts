@@ -1,6 +1,6 @@
 import { errorCatch } from '@/api/error';
 import { usersService } from '@/services/users.service';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -38,4 +38,24 @@ export function useProfile() {
   }, [error]);
 
   return { profile, isLoading };
+}
+
+export function useUpdateUser() {
+  const queryClient = useQueryClient();
+
+  const { mutate: updateUser, isPending } = useMutation({
+    mutationKey: ['profile'],
+    mutationFn: (data: { username: string }) => usersService.update(data),
+    onSuccess(res) {
+      toast.success(res.data.message);
+      queryClient.invalidateQueries({
+        queryKey: ['profile'],
+      });
+    },
+    onError(error: any) {
+      toast.error(errorCatch(error));
+    },
+  });
+
+  return { updateUser, isPending };
 }

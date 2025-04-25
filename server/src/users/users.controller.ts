@@ -1,4 +1,15 @@
-import { Body, Controller, Get, Post, Query, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  Request,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Public } from 'src/decorators/publicRoutes-decorator';
 import { SearchUserDto } from './dto/search-user.dto';
@@ -10,6 +21,12 @@ export class UsersController {
   @Get()
   getAll() {
     return this.usersService.getAllUsers();
+  }
+
+  @UsePipes(ValidationPipe)
+  @Patch()
+  update(@Request() req, @Body() updateUserDto: { username: string }) {
+    return this.usersService.update(+req.user.id, updateUserDto);
   }
 
   @Get('search')

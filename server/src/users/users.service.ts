@@ -22,6 +22,12 @@ export class UsersService {
     return users;
   }
 
+  async update(id: number, updateUserDto: { username: string }) {
+    this.userRepo.update(updateUserDto, { where: { id } });
+
+    return { message: 'Данные были обновлены' };
+  }
+
   async searchUsers(query: string, currentUserId: number): Promise<User[]> {
     return this.userRepo.findAll({
       where: {

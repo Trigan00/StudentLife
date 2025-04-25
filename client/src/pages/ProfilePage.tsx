@@ -4,22 +4,34 @@ import {
   Box,
   Button,
   Container,
+  IconButton,
   Paper,
   Stack,
-  SvgIconTypeMap,
+  TextField,
   Typography,
 } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
-import { useProfile } from '@/hooks/useUsers';
+import { useProfile, useUpdateUser } from '@/hooks/useUsers';
 import { Loader } from '@/components/UI/Loader/Loader';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
+import EditIcon from '@mui/icons-material/Edit';
+import SaveIcon from '@mui/icons-material/Save';
+import { useState } from 'react';
 
 const ProfilePage = () => {
   const { profile, isLoading } = useProfile();
   const { logout, isPending } = useLogout();
+  const { updateUser } = useUpdateUser();
+
+  const [isEdit, setIsEdit] = useState(false);
+  const [name, setName] = useState<string>();
+
+  const saveHandler = () => {
+    updateUser({ username: name || String(profile?.user.username) });
+    setIsEdit(false);
+  };
 
   const TasksStats: {
     amount: number | undefined;
@@ -59,13 +71,47 @@ const ProfilePage = () => {
               <PersonIcon sx={{ fontSize: '3rem' }} />
             </Avatar>
             <Box>
-              <Typography variant='h4'>{profile?.user.username}</Typography>
+              <Box
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent='space-between'
+              >
+                {isEdit ? (
+                  <>
+                    <TextField
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      size='small'
+                    />
+                    <SaveIcon
+                      color='action'
+                      sx={{ ml: 1, cursor: 'pointer' }}
+                      onClick={saveHandler}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Typography variant='h4'>
+                      {profile?.user.username}
+                    </Typography>
+                    <EditIcon
+                      color='action'
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => {
+                        setIsEdit(true);
+                        setName(profile?.user.username);
+                      }}
+                    />
+                  </>
+                )}
+              </Box>
+
               <Typography>{profile?.user.email}</Typography>
             </Box>
           </Stack>
         </Paper>
 
-        <Stack direction={'row'} spacing={3}>
+        <Stack direction={'row'} spacing={3} p={1} sx={{ overflowX: 'auto' }}>
           {TasksStats.map((el) => (
             <Paper
               variant='elevation'
