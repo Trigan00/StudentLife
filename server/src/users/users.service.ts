@@ -3,10 +3,15 @@ import { InjectModel } from '@nestjs/sequelize';
 import { User } from './users.model';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Op } from 'sequelize';
+import { Task } from 'src/tasks/entities/tasks.model';
+import * as dayjs from 'dayjs';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User) private userRepo: typeof User) {}
+  constructor(
+    @InjectModel(User) private userRepo: typeof User,
+    @InjectModel(Task) private taskRepo: typeof Task,
+  ) {}
 
   async createUser(dto: CreateUserDto) {
     const user = await this.userRepo.create(dto);
@@ -30,6 +35,57 @@ export class UsersService {
       attributes: ['id', 'username', 'email'], // Только нужные поля
       limit: 10, // Ограничить количество результатов
     });
+  }
+
+  async getProfile(userId: number) {
+    const now = dayjs().format();
+
+    const [user, completed, overdue, notCompleted] = await Promise.all([
+      this.userRepo.findOne({
+        where: { id: userId },
+        attributes: ['id', 'username', 'email'],
+      }),
+
+      this.taskRepo.count({
+        include: [
+          {
+            association: Task.associations.users,
+            where: { id: userId },
+          },
+        ],
+        where: { completed: true },
+      }),
+
+      this.taskRepo.count({
+        include: [
+          {
+            association: Task.associations.users,
+            where: { id: userId },
+          },
+        ],
+        where: {
+          completed: false,
+          deadLine: { [Op.lt]: now },
+        },
+      }),
+
+      this.taskRepo.count({
+        include: [
+          {
+            association: Task.associations.users,
+            where: { id: userId },
+          },
+        ],
+        where: { completed: false },
+      }),
+    ]);
+
+    return {
+      user,
+      completed,
+      overdue,
+      notCompleted,
+    };
   }
 
   async getUserByEmail(email: string) {

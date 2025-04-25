@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { debounce } from 'lodash';
 import { IUser } from '@/types/auth.types';
-import { useUsersSearch } from '@/hooks/useUsersSearch';
+import { useUsersSearch } from '@/hooks/useUsers';
 
 interface UserSearchI {
   selectedUsers: IUser[];

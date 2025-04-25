@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Post, Query, Request } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { Public } from 'src/decorators/publicRoutes-decorator';
 import { SearchUserDto } from './dto/search-user.dto';
 
@@ -20,6 +19,12 @@ export class UsersController {
       +req.user.id,
     );
     return users;
+  }
+
+  @Get('profile')
+  async getProfile(@Request() req) {
+    const profile = await this.usersService.getProfile(+req.user.id);
+    return profile;
   }
 
   @Public()

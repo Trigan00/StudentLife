@@ -15,6 +15,7 @@ export interface IAuthRecoveryForm extends IAuthForm {
 }
 
 export interface IAuthResponse {
+  username: string;
   email: string;
   id: string;
   token: string;

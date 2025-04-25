@@ -10,4 +10,14 @@ export const usersService = {
     });
     return response.data;
   },
+
+  async getProfile() {
+    const response = await axiosWithAuth.get<{
+      user: IUser;
+      completed: number;
+      overdue: number;
+      notCompleted: number;
+    }>('/users/profile');
+    return response.data;
+  },
 };

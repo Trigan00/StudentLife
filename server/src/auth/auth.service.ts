@@ -159,6 +159,7 @@ export class AuthService {
     return {
       refreshToken: tokens.refreshToken,
       user: {
+        username: user.username,
         email: user.email,
         id: user.id,
         token: tokens.accessToken,

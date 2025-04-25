@@ -9,4 +9,5 @@ export const routes = {
   SCHEDULE_ROUTE: '/schedule',
   CLASS_TASKS_ROUTE: '/class_tasks',
   CALENDAR_ROUTE: '/calendar',
+  PROFILE_ROUTE: '/profile',
 };

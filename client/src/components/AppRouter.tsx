@@ -21,6 +21,7 @@ import NotFoundPage from '@/pages/NotFoundPage';
 import SchedulePage from '@/pages/SchedulePage';
 import ClassTasksPage from '@/pages/ClassTasksPage';
 import CalendarPage from '@/pages/CalendarPage';
+import ProfilePage from '@/pages/ProfilePage';
 
 const AppRouter = () => {
   const { auth, isLoading } = useAuth();
@@ -57,6 +58,7 @@ const AppRouter = () => {
               path={routes.CLASS_TASKS_ROUTE}
               element={<ClassTasksPage />}
             />
+            <Route path={routes.PROFILE_ROUTE} element={<ProfilePage />} />
             <Route path='*' element={<NotFoundPage />} />
           </Route>
         </Routes>

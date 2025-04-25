@@ -22,3 +22,20 @@ export function useUsersSearch(inputValue: string) {
 
   return { users, isFetching, refetch };
 }
+
+export function useProfile() {
+  const {
+    data: profile,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['profile'],
+    queryFn: () => usersService.getProfile(),
+  });
+
+  useEffect(() => {
+    if (error) toast.error(errorCatch(error));
+  }, [error]);
+
+  return { profile, isLoading };
+}

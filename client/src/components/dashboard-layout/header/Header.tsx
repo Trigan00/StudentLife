@@ -9,6 +9,8 @@ import { COLORS, SITE_NAME } from '@/utils/GeneralConsts';
 import { routes } from '@/utils/routesConsts';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
+import { Avatar } from '@mui/material';
+import { useAuth } from '@/hooks/useAuth';
 
 export const headerHeight: number = 74;
 
@@ -17,6 +19,8 @@ interface IHeader {
 }
 
 export function Header({ toggleDrawer }: IHeader) {
+  const { auth } = useAuth();
+
   return (
     <AppBar
       position='absolute' //absolute || static
@@ -60,6 +64,13 @@ export function Header({ toggleDrawer }: IHeader) {
           </Typography>
         </Box>
       </Toolbar>
+      <Avatar
+        component={Link}
+        to={routes.PROFILE_ROUTE}
+        sx={{ cursor: 'pointer', textDecoration: 'none' }}
+      >
+        {auth?.username[0].toUpperCase()}
+      </Avatar>
     </AppBar>
   );
 }
