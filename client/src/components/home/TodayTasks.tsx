@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Loader } from '../UI/Loader/Loader';
 import TaskCard from '../tasks/TaskCard';
 import { TaskForm } from '../tasks/TaskForm';
-import { Box, Container, Paper, Typography } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
 const filterTodayTasks = (tasks: Task[] | undefined) => {

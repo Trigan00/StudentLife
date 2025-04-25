@@ -1,6 +1,6 @@
 import QuickTask from '@/components/home/QuickTask';
 import TodayTasks from '@/components/home/TodayTasks';
-import { Box, Container, Stack } from '@mui/material';
+import { Container, Stack } from '@mui/material';
 
 const HomePage = () => {
   return (
