@@ -176,7 +176,7 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
             />
 
             <Stack direction='row' spacing={2}>
-              {classes?.find((el) => el.id === Number(classId)) && (
+              {(classes?.find((el) => el.id === Number(classId)) || !!!id) && (
                 <FormControl size='small' sx={{ width: '50%' }}>
                   <InputLabel id='classes-label'>Предмет</InputLabel>
                   <Select
