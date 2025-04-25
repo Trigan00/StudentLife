@@ -38,7 +38,7 @@ const TodayTasks = () => {
     <Paper
       variant='elevation'
       elevation={2}
-      sx={{ py: 1, px: 3, borderRadius: 5, width: '50%' }}
+      sx={{ py: 1, px: 3, borderRadius: 5 }}
     >
       <Typography fontWeight='bold' my={2}>
         Задачи на сегодня
