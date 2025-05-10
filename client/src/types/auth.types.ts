@@ -8,6 +8,7 @@ export interface IAuthForm {
   email: string;
   password: string;
   username?: string;
+  studyStartDate?: string;
 }
 
 export interface IAuthRecoveryForm extends IAuthForm {

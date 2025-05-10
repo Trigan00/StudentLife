@@ -5,16 +5,19 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Box, Button, Link, Stack, TextField, Typography } from '@mui/material';
 import { routes } from '@/utils/routesConsts';
 import { SITE_NAME } from '@/utils/GeneralConsts';
 import { Link as RouterLink } from 'react-router-dom';
+import MyDate from '@/components/UI/MyDate';
+import dayjs, { Dayjs } from 'dayjs';
 
 const Auth: FC<{ isLoginForm: boolean }> = ({ isLoginForm }) => {
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();
+  const [studyStartDate, setStudyStartDate] = useState<Dayjs | null>(dayjs());
 
   const {
     register,
@@ -38,7 +41,7 @@ const Auth: FC<{ isLoginForm: boolean }> = ({ isLoginForm }) => {
   });
 
   const onSubmit: SubmitHandler<IAuthForm> = (data) => {
-    mutate(data);
+    mutate({ ...data, studyStartDate: studyStartDate?.format() });
   };
 
   return (
@@ -84,19 +87,26 @@ const Auth: FC<{ isLoginForm: boolean }> = ({ isLoginForm }) => {
           required
         />
         {!isLoginForm && (
-          <TextField
-            {...register('username', {
-              required: 'Не может быть пустым',
-            })}
-            type='text'
-            error={!!errors.username}
-            label='Имя пользователя'
-            helperText={errors.username?.message}
-            variant='outlined'
-            size='small'
-            fullWidth
-            required
-          />
+          <>
+            <TextField
+              {...register('username', {
+                required: 'Не может быть пустым',
+              })}
+              type='text'
+              error={!!errors.username}
+              label='Имя пользователя'
+              helperText={errors.username?.message}
+              variant='outlined'
+              size='small'
+              fullWidth
+              required
+            />
+            <MyDate
+              label='Начало обучения'
+              value={studyStartDate}
+              setValue={setStudyStartDate}
+            />
+          </>
         )}
         <TextField
           {...register('password', {

@@ -1,4 +1,10 @@
-import { IsString, IsEmail, Length, Matches } from 'class-validator';
+import {
+  IsString,
+  IsEmail,
+  Length,
+  Matches,
+  IsNotEmpty,
+} from 'class-validator';
 
 export class RegisterUserDto {
   @IsString({ message: 'Должно быть строкой' })
@@ -7,6 +13,8 @@ export class RegisterUserDto {
 
   @IsString({ message: 'Должно быть строкой' })
   readonly username: string;
+
+  readonly studyStartDate: string;
 
   @Length(8, undefined, {
     message: 'В пароле должно быть не менее 8 символов.',

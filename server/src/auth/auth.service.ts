@@ -90,7 +90,7 @@ export class AuthService {
       password: hashPassword,
       username: userDto.username,
       activationLink,
-      studyStartDate: new Date(),
+      studyStartDate: new Date(userDto.studyStartDate),
       // secret2fa: encryption.encrypt(secret2fa.base32, process.env.twoFASecret),
     });
 
