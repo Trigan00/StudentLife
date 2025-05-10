@@ -3,5 +3,6 @@ export class CreateUserDto {
   readonly username: string;
   readonly password: string;
   readonly activationLink: string;
+  readonly studyStartDate: Date;
   // readonly secret2fa: string;
 }

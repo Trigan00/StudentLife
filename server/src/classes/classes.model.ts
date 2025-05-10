@@ -13,6 +13,7 @@ import { User } from 'src/users/users.model';
 interface ClassesCreationAttrs {
   name: string;
   userId: number;
+  semester: number;
 }
 
 @Table({ tableName: 'classes', timestamps: true })
@@ -51,6 +52,9 @@ export class Class extends Model<Class, ClassesCreationAttrs> {
 
   @Column({ type: DataType.BOOLEAN, defaultValue: false, allowNull: false })
   completed: boolean;
+
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  semester: number;
 
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })

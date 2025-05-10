@@ -8,12 +8,25 @@ import { Comment } from 'src/comments/entities/comments.model';
 import { FileAttachment } from 'src/comments/entities/file-attachment.model.ts';
 import * as fs from 'fs';
 import * as path from 'path';
+import { User } from 'src/users/users.model';
+import getCurrentSemester from 'src/helpers/getCurrentSemester';
 
 @Injectable()
 export class ClassesService {
-  constructor(@InjectModel(Class) private ClassRepo: typeof Class) {}
+  constructor(
+    @InjectModel(Class) private ClassRepo: typeof Class,
+    @InjectModel(User) private UserRepo: typeof User,
+  ) {}
 
   async create(userId: number, createClassDto: CreateClassDto) {
+    const user = await this.UserRepo.findByPk(userId);
+    if (!user || !user.studyStartDate) {
+      throw new HttpException(
+        'Пользователь не найден или не указана дата начала обучения',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const candidate = await this.ClassRepo.findOne({
       where: { name: createClassDto.name, userId },
     });
@@ -23,8 +36,11 @@ export class ClassesService {
         HttpStatus.BAD_REQUEST,
       );
 
+    const semester = getCurrentSemester(new Date(user.studyStartDate));
+
     await this.ClassRepo.create({
       ...createClassDto,
+      semester,
       userId,
     });
 

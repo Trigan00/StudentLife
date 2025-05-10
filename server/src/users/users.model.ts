@@ -45,6 +45,9 @@ export class User extends Model<User, UserCreationAttrs> {
   @Column({ type: DataType.STRING })
   activationLink: string;
 
+  @Column({ type: DataType.DATE, allowNull: false })
+  studyStartDate: Date;
+
   @HasOne(() => Token)
   token: Token;
 

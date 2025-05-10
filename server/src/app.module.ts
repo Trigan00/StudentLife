@@ -20,6 +20,7 @@ import { Comment } from './comments/entities/comments.model';
 import { FileAttachment } from './comments/entities/file-attachment.model.ts';
 import { ScheduleModule } from './schedule/schedule.module';
 import { UserTasks } from './tasks/entities/user-tasks.model';
+import { CronModule } from './cron/cron.module';
 
 @Module({
   imports: [
@@ -58,6 +59,7 @@ import { UserTasks } from './tasks/entities/user-tasks.model';
     TasksModule,
     CommentsModule,
     ScheduleModule,
+    CronModule,
   ],
   controllers: [],
   // providers: [

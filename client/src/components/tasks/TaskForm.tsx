@@ -187,11 +187,13 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
                       <OutlinedInput label='Предмет' error={!!classIdError} />
                     }
                   >
-                    {classes?.map(({ id, name }) => (
-                      <MenuItem key={id} value={id}>
-                        {name}
-                      </MenuItem>
-                    ))}
+                    {classes
+                      ?.filter((classEl) => !classEl.completed)
+                      .map(({ id, name }) => (
+                        <MenuItem key={id} value={id}>
+                          {name}
+                        </MenuItem>
+                      ))}
                   </Select>
                 </FormControl>
               )}

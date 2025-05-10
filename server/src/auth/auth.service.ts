@@ -34,26 +34,6 @@ export class AuthService {
     if (!user.isActivated)
       throw new HttpException('Аккаунт не активирован', HttpStatus.BAD_REQUEST);
 
-    // const twoFAtoken = speakeasy.totp({
-    //   secret: encryption.decrypt(user.secret2fa, process.env.twoFASecret),
-    //   encoding: 'base32',
-    // });
-
-    // if (userDto.code !== twoFAtoken) {
-    //   throw new HttpException('Неверный код', HttpStatus.BAD_REQUEST);
-    // }
-
-    // const tokenValidates = speakeasy.totp.verify({
-    //   secret: encryption.decrypt(user.secret2fa, process.env.twoFASecret),
-    //   encoding: 'base32',
-    //   token: userDto.code,
-    //   window: 6,
-    // });
-
-    // if (!tokenValidates) {
-    //   throw new HttpException('Неверный код', HttpStatus.BAD_REQUEST);
-    // }
-
     const passwordEquals = await bcrypt.compare(
       userDto.password,
       user.password,
@@ -110,6 +90,7 @@ export class AuthService {
       password: hashPassword,
       username: userDto.username,
       activationLink,
+      studyStartDate: new Date(),
       // secret2fa: encryption.encrypt(secret2fa.base32, process.env.twoFASecret),
     });
 
