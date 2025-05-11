@@ -1,7 +1,7 @@
 import shortenText from '@/helpers/shortenText';
 import { Task } from '@/types/tasks.types';
 import { COLORS, dayCalendarConfig } from '@/utils/GeneralConsts';
-import { Box, Button, Checkbox, Typography } from '@mui/material';
+import { Box, Button, Checkbox, Typography, Stack, Chip } from '@mui/material';
 import { BpCheckedIcon, BpIcon } from '../UI/MyChexbox';
 import TodayIcon from '@mui/icons-material/Today';
 import dayjs from 'dayjs';
@@ -56,29 +56,32 @@ const TaskCard: React.FC<TaskCardI> = ({
             {shortenText(taskInfo.className, 150)}
           </Typography>
         )}
-        {taskInfo.deadLine && (
-          <Button
-            size='small'
-            startIcon={<TodayIcon />}
-            component='div'
-            disabled={taskInfo.completed}
-            disableRipple
-            disableElevation
-            sx={{
-              color: getDeadlineColor(taskInfo.deadLine),
-              cursor: 'default',
-              pointerEvents: 'none', // отключает любые взаимодействия
-              '&:hover': {
-                backgroundColor: 'transparent', // убирает подсветку
-              },
-              '&.Mui-disabled': {
-                opacity: 1,
-              },
-            }}
-          >
-            {dayjs(taskInfo.deadLine).calendar(null, dayCalendarConfig)}
-          </Button>
-        )}
+        <Stack direction='row' spacing={1} alignItems='center'>
+          {taskInfo.deadLine && (
+            <Button
+              size='small'
+              startIcon={<TodayIcon />}
+              component='div'
+              disabled={taskInfo.completed}
+              disableRipple
+              disableElevation
+              sx={{
+                color: getDeadlineColor(taskInfo.deadLine),
+                cursor: 'default',
+                pointerEvents: 'none', // отключает любые взаимодействия
+                '&:hover': {
+                  backgroundColor: 'transparent', // убирает подсветку
+                },
+                '&.Mui-disabled': {
+                  opacity: 1,
+                },
+              }}
+            >
+              {dayjs(taskInfo.deadLine).calendar(null, dayCalendarConfig)}
+            </Button>
+          )}
+          {taskInfo.type && <Chip size='small' label={taskInfo.type} />}
+        </Stack>
       </Box>
     </Box>
   );

@@ -27,7 +27,7 @@ import MyDateAndTime from '../UI/MyDateAndTime';
 import { useAllClasses } from '@/hooks/useClasses';
 import { Comments } from './Comments';
 import { useSearchParams } from 'react-router-dom';
-import { PRIORITY_OPTIONS } from '@/utils/GeneralConsts';
+import { PRIORITY_OPTIONS, task_types } from '@/utils/GeneralConsts';
 import { useAuth } from '@/hooks/useAuth';
 import { CreateTaskDto } from '@/types/tasks.types';
 import { UserSearch } from './UserSearch';
@@ -71,6 +71,7 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
   );
   const [classIdError, setClassIdError] = useState('');
   const [priority, setPriority] = useState('');
+  const [type, setType] = useState('');
   const [deadLine, setDeadLine] = useState<Dayjs | null>(
     normalizedDate ? dayjs(normalizedDate) : null,
   );
@@ -85,6 +86,7 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
       setClassId(String(data.classId));
       setPriority(data.priority ? String(data.priority) : '');
       setDeadLine(data.deadLine ? dayjs(data.deadLine) : null);
+      setType(data.type ? data.type : '');
       setSelectedUsers(data.users);
     }
   }, [data]);
@@ -98,6 +100,7 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
       description,
       classId: Number(classId),
       priority: priority ? Number(priority) : null,
+      type: type,
       deadLine: deadLine?.format() || null,
       className: classes?.find((classEl) => classEl.id === Number(classId))
         ?.name as string,
@@ -115,6 +118,8 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
       setTitle('');
       setDescription('');
       setPriority('');
+      setPriority('');
+      setType('');
     }
     if (!normalizedDate) setDeadLine(null);
     if (!normalizedClassId) setClassId('');
@@ -177,7 +182,7 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
 
             <Stack direction='row' spacing={2}>
               {(classes?.find((el) => el.id === Number(classId)) || !!!id) && (
-                <FormControl size='small' sx={{ width: '50%' }}>
+                <FormControl size='small' sx={{ width: '33%' }}>
                   <InputLabel id='classes-label'>Предмет</InputLabel>
                   <Select
                     value={classId}
@@ -198,7 +203,7 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
                 </FormControl>
               )}
 
-              <FormControl size='small' sx={{ width: '50%' }}>
+              <FormControl size='small' sx={{ width: '33%' }}>
                 <InputLabel id='priority-label'>Приоритет</InputLabel>
                 <Select
                   value={priority}
@@ -209,6 +214,22 @@ export function TaskForm({ isModal, setIsModal, id, setTaskId }: TaskFormI) {
                   <MenuItem value={3}>{PRIORITY_OPTIONS['3']}</MenuItem>
                   <MenuItem value={2}>{PRIORITY_OPTIONS['2']}</MenuItem>
                   <MenuItem value={1}>{PRIORITY_OPTIONS['1']}</MenuItem>
+                </Select>
+              </FormControl>
+
+              <FormControl size='small' sx={{ width: '33%' }}>
+                <InputLabel id='type-label'>Тип</InputLabel>
+                <Select
+                  value={type}
+                  labelId='type-label'
+                  onChange={(e) => setType(e.target.value)}
+                  input={<OutlinedInput label='Тип' />}
+                >
+                  {task_types.map((val) => (
+                    <MenuItem key={val} value={val}>
+                      {val}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Stack>

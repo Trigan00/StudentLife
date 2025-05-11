@@ -7,6 +7,7 @@ export interface Task {
   className: string;
   priority: number | null;
   deadLine: string | null;
+  type: string;
   classId: number;
   createdAt: string;
   updatedAt: string;
