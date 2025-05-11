@@ -99,7 +99,9 @@ const TasksPage: React.FC = () => {
   const [isTaskForm, setIsTaskForm] = useState(false);
   const [taskId, setTaskId] = useState<number | undefined>();
 
-  const [showCompleted, setShowCompleted] = useState(false);
+  const [showCompleted, setShowCompleted] = useState(
+    JSON.parse(localStorage.getItem('showCompleted') || 'true'),
+  );
   const [grouping, setGrouping] = useState<groupType>('no');
 
   const onDoneHandler = (task: Task) => {

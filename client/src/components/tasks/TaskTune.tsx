@@ -81,7 +81,12 @@ export default function TaskTune({
             <Typography>Выполненные задачи</Typography>
             <Switch
               checked={showCompleted}
-              onChange={() => setShowCompleted((prev) => !prev)}
+              onChange={() =>
+                setShowCompleted((prev) => {
+                  localStorage.setItem('showCompleted', JSON.stringify(!prev));
+                  return !prev;
+                })
+              }
             />
           </Box>
 
