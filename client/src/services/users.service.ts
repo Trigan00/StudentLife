@@ -21,6 +21,14 @@ export const usersService = {
     return response.data;
   },
 
+  async getNotifications() {
+    const response = await axiosWithAuth.get<{
+      isTermWorks: boolean;
+      isPracticalWorks: boolean;
+    }>('/users/notifications');
+    return response.data;
+  },
+
   async update(data: { username: string }) {
     const response = await axiosWithAuth.patch<{
       message: string;

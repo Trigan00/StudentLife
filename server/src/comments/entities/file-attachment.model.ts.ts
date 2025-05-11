@@ -22,10 +22,9 @@ export class FileAttachment extends Model {
   @Column(DataType.INTEGER)
   size: number;
 
-  @ForeignKey(() => Comment)
   @Column
-  commentId: number;
+  attachmentType: string; // 'comment' | 'answer'
 
-  @BelongsTo(() => Comment)
-  comment: Comment;
+  @Column
+  attachmentId: number;
 }

@@ -1,5 +1,3 @@
-'use client';
-
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,8 +7,9 @@ import { COLORS, SITE_NAME } from '@/utils/GeneralConsts';
 import { routes } from '@/utils/routesConsts';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
-import { Avatar } from '@mui/material';
+import { Avatar, Stack } from '@mui/material';
 import { useAuth } from '@/hooks/useAuth';
+import Notifications from './Notifications';
 
 export const headerHeight: number = 74;
 
@@ -64,13 +63,17 @@ export function Header({ toggleDrawer }: IHeader) {
           </Typography>
         </Box>
       </Toolbar>
-      <Avatar
-        component={Link}
-        to={routes.PROFILE_ROUTE}
-        sx={{ cursor: 'pointer', textDecoration: 'none' }}
-      >
-        {auth?.username[0].toUpperCase()}
-      </Avatar>
+      <Stack direction='row' spacing={1}>
+        <Notifications />
+
+        <Avatar
+          component={Link}
+          to={routes.PROFILE_ROUTE}
+          sx={{ cursor: 'pointer', textDecoration: 'none' }}
+        >
+          {auth?.username[0].toUpperCase()}
+        </Avatar>
+      </Stack>
     </AppBar>
   );
 }

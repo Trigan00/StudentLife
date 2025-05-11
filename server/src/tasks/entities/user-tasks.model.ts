@@ -9,6 +9,8 @@ export class UserTasks extends Model<UserTasks> {
   userId: number;
 
   @ForeignKey(() => Task)
-  @Column
+  @Column({
+    onDelete: 'CASCADE',
+  })
   taskId: number;
 }

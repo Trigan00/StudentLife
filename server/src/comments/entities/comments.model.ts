@@ -47,6 +47,11 @@ export class Comment extends Model {
   @BelongsTo(() => Task)
   task: Task;
 
-  @HasMany(() => FileAttachment)
+  @HasMany(() => FileAttachment, {
+    foreignKey: 'attachmentId',
+    scope: {
+      attachmentType: 'comment',
+    },
+  })
   attachments: FileAttachment[];
 }

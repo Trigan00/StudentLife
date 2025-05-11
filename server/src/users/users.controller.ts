@@ -44,6 +44,14 @@ export class UsersController {
     return profile;
   }
 
+  @Get('notifications')
+  async getNotifications(@Request() req) {
+    const notifications = await this.usersService.getNotifications(
+      +req.user.id,
+    );
+    return notifications;
+  }
+
   @Public()
   @Post('test')
   foo(@Body() dto: { email: string }) {

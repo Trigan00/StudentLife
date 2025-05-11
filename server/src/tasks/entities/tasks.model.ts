@@ -55,7 +55,7 @@ export class Task extends Model<Task, TasksCreationAttrs> {
   users: User[];
 
   @ForeignKey(() => Class)
-  @Column({ type: DataType.INTEGER })
+  @Column({ type: DataType.INTEGER, onDelete: 'CASCADE' })
   classId: number;
 
   @BelongsTo(() => Class)

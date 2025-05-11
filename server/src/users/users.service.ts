@@ -94,6 +94,35 @@ export class UsersService {
     };
   }
 
+  async getNotifications(userId: number) {
+    const termWorks = await this.taskRepo.findAll({
+      include: [
+        {
+          association: Task.associations.users,
+          where: { id: userId },
+        },
+      ],
+      where: {
+        type: 'Курсовая работа',
+      },
+    });
+    const practicalWorks = await this.taskRepo.findAll({
+      include: [
+        {
+          association: Task.associations.users,
+          where: { id: userId },
+        },
+      ],
+      where: {
+        type: 'Практика',
+      },
+    });
+    return {
+      isTermWorks: !!termWorks.length,
+      isPracticalWorks: !!practicalWorks,
+    };
+  }
+
   async getUserByEmail(email: string) {
     const user = await this.userRepo.findOne({ where: { email } });
     return user;

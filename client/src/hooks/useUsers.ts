@@ -40,6 +40,23 @@ export function useProfile() {
   return { profile, isLoading };
 }
 
+export function useNotifications() {
+  const {
+    data: notifications,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['notifications'],
+    queryFn: () => usersService.getNotifications(),
+  });
+
+  useEffect(() => {
+    if (error) toast.error(errorCatch(error));
+  }, [error]);
+
+  return { notifications, isLoading };
+}
+
 export function useUpdateUser() {
   const queryClient = useQueryClient();
 

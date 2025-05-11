@@ -47,7 +47,8 @@ export class CommentsService {
         path: file.filename,
         mimetype: file.mimetype,
         size: file.size,
-        commentId: comment.id,
+        attachmentType: 'comment', // добавлено
+        attachmentId: comment.id, // заменяет commentId
       }));
 
       await this.FileAttachmentRepo.bulkCreate(attachments);
@@ -96,7 +97,10 @@ export class CommentsService {
       }
 
       await this.FileAttachmentRepo.destroy({
-        where: { commentId: id },
+        where: {
+          attachmentId: id,
+          attachmentType: 'comment',
+        },
       });
     }
 
