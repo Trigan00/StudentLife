@@ -15,6 +15,10 @@ async function bootstrap() {
   });
   app.use(cookieParser());
   app.use('/uploads', serveStatic(join(__dirname, '..', 'uploads')));
+  app.use(
+    '/QandA-uploads',
+    serveStatic(join(__dirname, '..', 'QandA-uploads')),
+  );
   await app.listen(PORT, () => console.log(`server started on port: ${PORT}`));
 }
 bootstrap();

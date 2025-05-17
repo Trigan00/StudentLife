@@ -22,18 +22,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { CommentCard } from './CommentCard';
 import DeleteModal from '../DeleteModal';
 import shortenText from '@/helpers/shortenText';
-
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
-  height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  whiteSpace: 'nowrap',
-  width: 1,
-});
+import { VisuallyHiddenInput } from '../UI/VisuallyHidenInput';
 
 interface CommentsI {
   taskId: number;

@@ -21,6 +21,8 @@ import { FileAttachment } from './comments/entities/file-attachment.model.ts';
 import { ScheduleModule } from './schedule/schedule.module';
 import { UserTasks } from './tasks/entities/user-tasks.model';
 import { CronModule } from './cron/cron.module';
+import { ExamQandAModule } from './exam-qand-a/exam-qand-a.module';
+import { ExamQandA } from './exam-qand-a/examQandA.model';
 
 @Module({
   imports: [
@@ -39,7 +41,16 @@ import { CronModule } from './cron/cron.module';
       define: {
         timestamps: false,
       },
-      models: [User, Token, Class, Task, Comment, FileAttachment, UserTasks],
+      models: [
+        User,
+        Token,
+        Class,
+        Task,
+        Comment,
+        FileAttachment,
+        UserTasks,
+        ExamQandA,
+      ],
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', '..', 'client', 'build'),
@@ -60,6 +71,7 @@ import { CronModule } from './cron/cron.module';
     CommentsModule,
     ScheduleModule,
     CronModule,
+    ExamQandAModule,
   ],
   controllers: [],
   // providers: [

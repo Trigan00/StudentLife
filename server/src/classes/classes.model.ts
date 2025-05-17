@@ -7,6 +7,7 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
+import { ExamQandA } from 'src/exam-qand-a/examQandA.model';
 import { Task } from 'src/tasks/entities/tasks.model';
 import { User } from 'src/users/users.model';
 
@@ -65,4 +66,7 @@ export class Class extends Model<Class, ClassesCreationAttrs> {
 
   @HasMany(() => Task)
   tasks: Task[];
+
+  @HasMany(() => ExamQandA)
+  examQandAs: ExamQandA[];
 }

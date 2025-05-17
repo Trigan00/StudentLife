@@ -22,6 +22,8 @@ import SchedulePage from '@/pages/SchedulePage';
 import ClassTasksPage from '@/pages/ClassTasksPage';
 import CalendarPage from '@/pages/CalendarPage';
 import ProfilePage from '@/pages/ProfilePage';
+import ExamsPage from '@/pages/ExamsPage';
+import QandAPage from '@/pages/QandAPage';
 
 const AppRouter = () => {
   const { auth, isLoading } = useAuth();
@@ -50,7 +52,6 @@ const AppRouter = () => {
           <Route path={routes.HOME_ROUTE} element={<Layout />}>
             <Route index element={<Home />} />
             <Route path={routes.TASKS_ROUTE} element={<TasksPage />} />
-            {/* <Route path={routes.TASKS_ROUTE + '/:id'} element={<TaskPage />} /> */}
             <Route path={routes.CLASSES_ROUTE} element={<ClassesPage />} />
             <Route path={routes.SCHEDULE_ROUTE} element={<SchedulePage />} />
             <Route path={routes.CALENDAR_ROUTE} element={<CalendarPage />} />
@@ -59,6 +60,8 @@ const AppRouter = () => {
               element={<ClassTasksPage />}
             />
             <Route path={routes.PROFILE_ROUTE} element={<ProfilePage />} />
+            <Route path={routes.EXAMS_ROUTE} element={<ExamsPage />} />
+            <Route path={routes.EXAMS_ROUTE + '/:id'} element={<QandAPage />} />
             <Route path='*' element={<NotFoundPage />} />
           </Route>
         </Routes>
