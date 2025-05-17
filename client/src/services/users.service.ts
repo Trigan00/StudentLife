@@ -25,6 +25,7 @@ export const usersService = {
     const response = await axiosWithAuth.get<{
       isTermWorks: boolean;
       isPracticalWorks: boolean;
+      isNewSem: boolean;
     }>('/users/notifications');
     return response.data;
   },

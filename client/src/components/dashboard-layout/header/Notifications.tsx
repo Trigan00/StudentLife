@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   IconButton,
   Badge,
@@ -9,11 +9,21 @@ import {
 } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useNotifications } from '@/hooks/useUsers';
+import NotificationModal from '@/components/UI/NotificationModal';
+import { useNavigate } from 'react-router-dom';
+import { routes } from '@/utils/routesConsts';
 
 const Notifications = () => {
   const { notifications } = useNotifications();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const [openModal, setOpenModal] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (notifications?.isNewSem) setOpenModal(true);
+  }, [notifications]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -59,6 +69,14 @@ const Notifications = () => {
           </Stack>
         )}
       </Menu>
+      <NotificationModal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        onGoToSchedule={() => {
+          setOpenModal(false);
+          navigate(routes.CLASSES_ROUTE);
+        }}
+      />
     </>
   );
 };

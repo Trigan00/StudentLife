@@ -19,6 +19,7 @@ async function bootstrap() {
     '/QandA-uploads',
     serveStatic(join(__dirname, '..', 'QandA-uploads')),
   );
+
   await app.listen(PORT, () => console.log(`server started on port: ${PORT}`));
 }
 bootstrap();

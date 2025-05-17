@@ -5,6 +5,8 @@ import { Op } from 'sequelize';
 import { Class } from 'src/classes/classes.model';
 import getCurrentSemester from 'src/helpers/getCurrentSemester';
 import { User } from 'src/users/users.model';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 @Injectable()
 export class CronService {
@@ -34,14 +36,14 @@ export class CronService {
     }
   }
 
-  @Cron('0 0 1 9 *') // мин, час, день, месяц, деньНедели
+  @Cron(process.env.SPRING_SEM_START) // мин, час, день, месяц, деньНедели
   async handleSeptember() {
     console.log('📘 Запуск завершения предметов - 1 сентября');
     await this.markCompletedClasses();
   }
 
   // Запуск 1 февраля в 00:00
-  @Cron('0 0 1 2 *')
+  @Cron(process.env.AUtUMN_SEM_START)
   async handleFebruary() {
     console.log('📗 Запуск завершения предметов - 1 февраля');
     await this.markCompletedClasses();

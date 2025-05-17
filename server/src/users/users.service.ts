@@ -117,9 +117,21 @@ export class UsersService {
         type: 'Практика',
       },
     });
+
+    const today = new Date();
+    const isFirstOfSeptember =
+      today.getDate() === 1 &&
+      today.getMonth() ===
+        Number(process.env.SPRING_SEM_START.split(' ')[3]) - 1;
+    const isFirstOfFebruary =
+      today.getDate() === 1 &&
+      today.getMonth() ===
+        Number(process.env.AUtUMN_SEM_START.split(' ')[3]) - 1;
+
     return {
       isTermWorks: !!termWorks.length,
       isPracticalWorks: !!practicalWorks,
+      isNewSem: isFirstOfSeptember || isFirstOfFebruary,
     };
   }
 
