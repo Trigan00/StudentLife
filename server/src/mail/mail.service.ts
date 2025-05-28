@@ -17,22 +17,27 @@ export class MailService {
     } as SMTPTransport.Options);
   }
 
-  async sendVerificationMail(to: string, link: string) {
+  async sendMail({
+    subject,
+    text,
+    to,
+    html,
+  }: {
+    to: string;
+    subject: string;
+    text?: string;
+    html?: string;
+  }) {
     // console.log(QRCodeUrl);
     try {
       await this.transporter.sendMail({
         from: 'StudentLife <mytest_90@mail.ru>',
         to,
-        subject: 'Account activation on ' + process.env.API_URL,
-        text: '',
-        html: `
-                        <div>
-                            <h3>To activate, follow the link</h3>
-                            <a href="${link}">${link}</a>
-                        </div>
-                    `,
+        subject: subject,
+        text: text,
+        html: html,
       });
-      console.log(`Verification mail send to ${to} successfully`);
+      console.log(`Mail send to ${to} successfully`);
     } catch (error) {
       console.log(error);
     }

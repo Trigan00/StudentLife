@@ -72,18 +72,19 @@ export class AuthService {
       );
     const hashPassword = await bcrypt.hash(userDto.password, 12);
     const activationLink = v4();
-    // const secret2fa = speakeasy.generateSecret({
-    //   name: 'MyPasswords_2',
-    //   length: 20,
-    // });
 
-    // const QRCodeUrl = await QRCode.toDataURL(secret2fa.otpauth_url);
+    const link = `${process.env.API_URL}/api/auth/activate/${activationLink}`;
 
-    await this.mailService.sendVerificationMail(
-      userDto.email,
-      `${process.env.API_URL}/api/auth/activate/${activationLink}`,
-      // QRCodeUrl,
-    );
+    await this.mailService.sendMail({
+      to: userDto.email,
+      subject: 'Account activation on ' + process.env.API_URL,
+      html: `
+                        <div>
+                            <h3>To activate, follow the link</h3>
+                            <a href="${link}">${link}</a>
+                        </div>
+                    `,
+    });
 
     await this.userService.createUser({
       email: userDto.email,

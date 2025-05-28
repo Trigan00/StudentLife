@@ -139,7 +139,7 @@ export default function SideBar({ open, toggleDrawer }: ISideBar) {
         {/* <Divider />  */}
       </List>
       <List>
-        <ListItemButton
+        {/* <ListItemButton
           onClick={onClickHandler}
           // component={Link}
           // to={routes.HOME_ROUTE}
@@ -151,7 +151,7 @@ export default function SideBar({ open, toggleDrawer }: ISideBar) {
           <ListItemText
             primary={<Typography fontSize='1.1rem'>Таймер</Typography>}
           />
-        </ListItemButton>
+        </ListItemButton> */}
       </List>
     </MyDrawer>
   );

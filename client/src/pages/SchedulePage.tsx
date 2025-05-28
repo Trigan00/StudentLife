@@ -58,12 +58,12 @@ const SchedulePage = () => {
         </Box>
         <Stack spacing={2} mt={2} sx={{ maxWidth: '500px', width: '100%' }}>
           {data &&
-            data[active.day()].map((classEl) => {
+            data[active.day()].map((classEl, i) => {
               return classEl.evenness === isEvenWeek ||
                 classEl.evenness === 'always' ? (
                 <Card
                   variant='outlined'
-                  key={classEl.id}
+                  key={i}
                   sx={{
                     p: 2,
                     borderRadius: '15px',
